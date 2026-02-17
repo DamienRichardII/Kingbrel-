@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FFC500" />
+  <title>KINGBREL — Réserver</title>
+  <meta name="description" content="KINGBREL — Réservation en ligne premium. Choisis ta prestation et ton créneau (12h → 19h)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body data-theme="light">
+  <!-- Header (identique à l'accueil) -->
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html" aria-current="page">Réserver</a>
+          <a class="btn btn--headerGhost" href="./contact.html">Contact</a>
+        </div>
+      </div>
+
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="lightMain" id="main">
+    <section class="lightHero">
+      <div class="container">
+        <p class="lightKicker"><strong>Réservation</strong> • 12h → 19h • Livry-Gargan</p>
+        <h1 class="lightTitle">Choisis ta prestation</h1>
+        <p class="lightLead">Sélectionne une catégorie, puis clique sur <strong>Réserver</strong>. Le calendrier s’ouvre avec les créneaux disponibles.</p>
+      </div>
+    </section>
+
+    <section class="lightSection" aria-label="Prestations">
+      <div class="container">
+
+        <!-- 1) Coiffure -->
+        <details class="accordion" open>
+          <summary class="accordion__summary">
+            <div class="accordion__media" style="background-image:url('./assets/presta-coiffure.png')" aria-hidden="true"></div>
+            <div class="accordion__meta">
+              <div class="accordion__tag">Dépliant</div>
+              <div class="accordion__title">Coiffure</div>
+              <div class="accordion__desc">Coupes, contours, rasages • Durées & prix affichés</div>
+            </div>
+            <div class="accordion__chev" aria-hidden="true">+</div>
+          </summary>
+
+          <div class="accordion__body">
+            <div class="serviceRows">
+              <div class="serviceRow">
+                <div class="serviceRow__name">Coupe simple</div>
+                <div class="serviceRow__meta">20€ • 45 min</div>
+                <button class="btn btn--book" data-book="coupe-simple">Réserver</button>
+              </div>
+              <div class="serviceRow">
+                <div class="serviceRow__name">Coupe + Barbe</div>
+                <div class="serviceRow__meta">30€ • 1h</div>
+                <button class="btn btn--book" data-book="coupe-barbe">Réserver</button>
+              </div>
+              <div class="serviceRow">
+                <div class="serviceRow__name">Contours</div>
+                <div class="serviceRow__meta">20€ • 45 min</div>
+                <button class="btn btn--book" data-book="contours">Réserver</button>
+              </div>
+              <div class="serviceRow">
+                <div class="serviceRow__name">Rasage de crâne (lame)</div>
+                <div class="serviceRow__meta">15€ • 20 min</div>
+                <button class="btn btn--book" data-book="rasage-lame">Réserver</button>
+              </div>
+              <div class="serviceRow">
+                <div class="serviceRow__name">Rasage de crâne (tondeuse)</div>
+                <div class="serviceRow__meta">10€ • 15 min</div>
+                <button class="btn btn--book" data-book="rasage-tondeuse">Réserver</button>
+              </div>
+              <div class="serviceRow">
+                <div class="serviceRow__name">Rasage tondeuse + barbe</div>
+                <div class="serviceRow__meta">20€ • 45 min</div>
+                <button class="btn btn--book" data-book="rasage-tondeuse-barbe">Réserver</button>
+              </div>
+              <div class="serviceRow">
+                <div class="serviceRow__name">Coupe enfant (-12 ans)</div>
+                <div class="serviceRow__meta">15€ • 35 min</div>
+                <button class="btn btn--book" data-book="enfant">Réserver</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- 2) Barbe -->
+        <details class="accordion">
+          <summary class="accordion__summary">
+            <div class="accordion__media" style="background-image:url('./assets/presta-barbe.png')" aria-hidden="true"></div>
+            <div class="accordion__meta">
+              <div class="accordion__tag">Dépliant</div>
+              <div class="accordion__title">Barbe</div>
+              <div class="accordion__desc">Nettoyage, traçage, finition premium</div>
+            </div>
+            <div class="accordion__chev" aria-hidden="true">+</div>
+          </summary>
+
+          <div class="accordion__body">
+            <div class="serviceRows">
+              <div class="serviceRow">
+                <div class="serviceRow__name">Barbe</div>
+                <div class="serviceRow__meta">10€ • 20 min</div>
+                <button class="btn btn--book" data-book="barbe">Réserver</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- 3) Colorations -->
+        <details class="accordion">
+          <summary class="accordion__summary">
+            <div class="accordion__media" style="background-image:url('./assets/presta-colorations.png')" aria-hidden="true"></div>
+            <div class="accordion__meta">
+              <div class="accordion__tag">Dépliant</div>
+              <div class="accordion__title">Colorations</div>
+              <div class="accordion__desc">Sur devis • Demande d’info possible en commentaire</div>
+            </div>
+            <div class="accordion__chev" aria-hidden="true">+</div>
+          </summary>
+
+          <div class="accordion__body">
+            <div class="serviceRows">
+              <div class="serviceRow">
+                <div class="serviceRow__name">Coloration</div>
+                <div class="serviceRow__meta">Sur devis • 1h30</div>
+                <button class="btn btn--book" data-book="coloration">Réserver</button>
+              </div>
+              <div class="serviceRow">
+                <div class="serviceRow__name">Décoloration</div>
+                <div class="serviceRow__meta">Sur devis • 1h30</div>
+                <button class="btn btn--book" data-book="decoloration">Réserver</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- 4) Soins du visage -->
+        <details class="accordion">
+          <summary class="accordion__summary">
+            <div class="accordion__media accordion__media--blank" aria-hidden="true">
+              <span class="accordion__blankMark">★</span>
+            </div>
+            <div class="accordion__meta">
+              <div class="accordion__tag">Dépliant</div>
+              <div class="accordion__title">Soins du visage</div>
+              <div class="accordion__desc">Soin premium • Peau nette & hydratée</div>
+            </div>
+            <div class="accordion__chev" aria-hidden="true">+</div>
+          </summary>
+
+          <div class="accordion__body">
+            <div class="serviceRows">
+              <div class="serviceRow">
+                <div class="serviceRow__name">Soin du visage</div>
+                <div class="serviceRow__meta">25€ • 1h</div>
+                <button class="btn btn--book" data-book="soin-visage">Réserver</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (conservé) -->
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+      </div>
+
+      <div class="siteFooter__col">
+        <div class="siteFooter__title">Nous trouver</div>
+        <div class="siteFooter__text">14 rue Pachot Lainé, Livry Gargan, 93046</div>
+      </div>
+
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/app.js" defer></script>
+<script src="./js/booking.js" defer></script>
+
+<script defer>
+  // UX: ferme les autres panneaux quand on en ouvre un (premium & lisible)
+  window.addEventListener("DOMContentLoaded", () => {
+    const accordions = Array.from(document.querySelectorAll(".accordion"));
+    accordions.forEach(d => {
+      d.addEventListener("toggle", () => {
+        if (!d.open) return;
+        accordions.forEach(o => { if (o !== d) o.open = false; });
+      });
+    });
+
+    // CTA réservation -> ouvre le calendrier
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-book]");
+      if (!btn) return;
+      e.preventDefault();
+      if (typeof window.openBooking === "function") {
+        window.openBooking(btn.getAttribute("data-book"));
+      } else {
+        console.error("openBooking n'est pas chargé.");
+      }
+    });
+  });
+</script>
+</body>
+</html>

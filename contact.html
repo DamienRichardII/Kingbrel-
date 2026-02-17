@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FFC500" />
+  <title>KINGBREL — Contact</title>
+  <meta name="description" content="KINGBREL — Contact & accès. Coiffeur à Livry-Gargan. Réservation en ligne premium." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body data-theme="dark">
+  <!-- Header (identique à Réserver) -->
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html">Réserver</a>
+          <a class="btn btn--headerGhost" href="./contact.html" aria-current="page">Contact</a>
+        </div>
+      </div>
+
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="main">
+    <section class="section">
+      <div class="container">
+        <p class="kicker" style="margin:0 0 10px">
+          <strong style="color: var(--supernova)">Contact</strong> • Adresse • Réseaux sociaux
+        </p>
+
+        <h1 class="pageTitle">Nous contacter</h1>
+        <p class="pageLead">
+          Pour une demande spécifique, contacte-nous via Instagram/TikTok ou passe par la messagerie.
+        </p>
+
+        <!-- Adresse + Carte -->
+        <div class="split" style="margin-top:18px">
+          <div class="panel">
+            <h2 style="margin:0 0 6px">Adresse</h2>
+            <p style="margin:0; line-height:1.6; color: rgba(255,255,255,.72)">
+              14 rue Pachot Lainé, Livry Gargan, 93046
+            </p>
+
+            <div class="hr"></div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap">
+              <a class="btn btn--primary" href="./reserver.html">Réserver</a>
+              <a class="btn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noreferrer">Instagram</a>
+              <a class="btn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noreferrer">TikTok</a>
+            </div>
+
+            <div class="hr"></div>
+
+            <p style="margin:0; color: rgba(255,255,255,.72); line-height:1.6">
+              Horaires de réservation : <strong>12h → 19h</strong>
+            </p>
+          </div>
+
+          <div class="panel" style="overflow:hidden; padding:0">
+            <iframe
+              title="Carte"
+              width="100%"
+              height="360"
+              style="border:0; display:block"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=14%20rue%20Pachot%20Lain%C3%A9%2C%20Livry%20Gargan%2093046&output=embed">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Message / Email + mini formulaire -->
+        <section aria-label="Envoyer un message" style="margin-top:18px">
+          <div class="panel">
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <h2 style="margin:0">Message</h2>
+              <p style="margin:0; line-height:1.6; color: rgba(255,255,255,.72)">
+                Tu peux écrire directement à :
+                <a href="mailto:Kingbrel.paris@gmail.com" style="color: var(--supernova); font-weight:800; text-decoration:none">
+                  Kingbrel.paris@gmail.com
+                </a>
+              </p>
+            </div>
+
+            <div class="hr"></div>
+
+            <form id="contactForm" class="contactForm" novalidate>
+              <div class="contactForm__grid">
+                <div class="field">
+                  <div class="label">Nom & Prénom</div>
+                  <input class="input" id="cf_name" required placeholder="Ex: Damien Miyouna." />
+                </div>
+
+                <div class="field">
+                  <div class="label">Téléphone</div>
+                  <input class="input" id="cf_phone" required placeholder="Ex: 06 12 34 56 78" />
+                </div>
+
+                <div class="field">
+                  <div class="label">Email</div>
+                  <input class="input" id="cf_email" type="email" required placeholder="Ex: client@email.com" />
+                </div>
+
+                <div class="field">
+                  <div class="label">Objet</div>
+                  <input class="input" id="cf_subject" placeholder="Ex: Info coloration / dispo" />
+                </div>
+
+                <div class="field contactForm__full">
+                  <div class="label">Message</div>
+                  <textarea class="textarea" id="cf_message" required placeholder="Écris ton message ici…"></textarea>
+                </div>
+              </div>
+
+              <div class="hr"></div>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+                <button class="btn btn--primary" type="submit">Envoyer</button>
+                <a class="btn" href="./reserver.html">Passer par la réservation</a>
+              </div>
+
+              <p style="margin:10px 0 0; color: rgba(255,255,255,.62); font-size:13px; line-height:1.55">
+                
+              </p>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (identique à Réserver) -->
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+      </div>
+
+      <div class="siteFooter__col">
+        <div class="siteFooter__title">Nous trouver</div>
+        <div class="siteFooter__text">14 rue Pachot Lainé, Livry Gargan, 93046</div>
+      </div>
+
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS: mini formulaire -> mailto pré-rempli -->
+  <script type="module" src="./js/app.js"></script>
+  <script>
+    (function(){
+      const form = document.getElementById('contactForm');
+      if(!form) return;
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+
+        const name = (document.getElementById('cf_name')?.value || '').trim();
+        const phone = (document.getElementById('cf_phone')?.value || '').trim();
+        const email = (document.getElementById('cf_email')?.value || '').trim();
+        const subject = (document.getElementById('cf_subject')?.value || '').trim() || 'Demande KINGBREL';
+        const message = (document.getElementById('cf_message')?.value || '').trim();
+
+        if(!name || !phone || !email || !message){
+          alert("Merci de remplir Nom, Téléphone, Email et Message.");
+          return;
+        }
+
+        const body =
+`Bonjour KINGBREL,
+
+Nom & Prénom : ${name}
+Téléphone : ${phone}
+Email : ${email}
+
+Message :
+${message}
+
+Merci,`;
+
+        const mailto = `mailto:Kingbrel.paris@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailto;
+      });
+    })();
+  </script>
+</body>
+</html>

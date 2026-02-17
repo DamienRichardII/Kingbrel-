@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <title>KINGBREL — Admin</title>
+  <meta name="description" content="KINGBREL — Coiffeur à Livry-Gargan. Réservation en ligne premium." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  
+<main id="main" class="main">
+  <section class="section">
+    <div class="container">
+      <p class="kicker" style="margin:0 0 10px"><strong style="color: var(--supernova)">Admin</strong> • Disponibilités • Réservations</p>
+      <h1 class="pageTitle">Espace administrateur</h1>
+      <p class="pageLead">
+        Ici, tu définis les disponibilités du calendrier. Les réservations sont stockées localement dans le navigateur (V1).
+        Pour une vraie prod multi‑appareils, on branche une base + authentification (V2).
+      </p>
+
+      <div style="margin-top:16px" id="stats"></div>
+
+      <div class="panel" style="margin-top:16px">
+        <div class="field" style="max-width:320px">
+          <div class="label">Choisir une date</div>
+          <input class="input" type="date" id="adminDate" />
+        </div>
+      </div>
+
+      <div style="margin-top:16px; display:grid; gap:16px">
+        <div id="dayEditor"></div>
+        <div id="bookingList"></div>
+      </div>
+
+      <div class="panel" style="margin-top:16px">
+        <h3 style="margin:0 0 6px">Tip</h3>
+        <p style="margin:0; color: rgba(255,255,255,.72); line-height:1.6">
+          Pour repartir de zéro, ouvre la console et exécute :
+          <code style="background: rgba(255,255,255,.06); padding:4px 8px; border-radius:10px">localStorage.clear()</code>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="./js/admin.js"></script>
+
+
+  <script type="module" src="./js/app.js"></script>
+  
+</body>
+</html>
