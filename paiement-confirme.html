@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FFC500" />
+  <title>KINGBREL — Paiement confirmé</title>
+  <meta name="description" content="Votre paiement a bien été reçu. À très bientôt chez KINGBREL." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
+  <style>
+    .confirmPage {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 16px;
+    }
+    .confirmCard {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 28px;
+      padding: 48px 40px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+    .confirmIcon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--supernova);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 32px;
+    }
+    .confirmTitle {
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 800;
+      margin: 0 0 12px;
+      color: #fff;
+    }
+    .confirmLead {
+      color: rgba(255,255,255,.72);
+      line-height: 1.65;
+      margin: 0 0 32px;
+      font-size: 15px;
+    }
+    .confirmActions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .confirmMeta {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      color: rgba(255,255,255,.45);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body data-theme="dark">
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html">Réserver</a>
+          <a class="btn btn--headerGhost" href="./contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="confirmPage">
+      <div class="confirmCard">
+        <div class="confirmIcon">✓</div>
+        <h1 class="confirmTitle">Paiement confirmé !</h1>
+        <p class="confirmLead">
+          Ton paiement a bien été reçu. Un reçu t'a été envoyé par email.<br />
+          On t'attend au salon — à très bientôt chez KINGBREL.
+        </p>
+        <div class="confirmActions">
+          <a class="btn btn--primary" href="./index.html">Retour à l'accueil</a>
+          <a class="btn" href="./reserver.html">Nouvelle réservation</a>
+        </div>
+        <p class="confirmMeta">
+          Un problème avec ton paiement ?<br />
+          Contacte-nous via <a href="./contact.html" style="color: var(--supernova)">la page contact</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+      </div>
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/app.js" defer></script>
+</body>
+</html>

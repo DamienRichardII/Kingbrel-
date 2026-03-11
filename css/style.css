@@ -390,6 +390,24 @@ background-size:cover;
 }
 .light .input:focus, .light .textarea:focus{border-color: rgba(255,197,0,.65); box-shadow: 0 0 0 4px rgba(255,197,0,.20)}
 
+.serviceRow__actions{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn--pay{
+  background: transparent;
+  border: 1px solid var(--supernova);
+  color: var(--supernova);
+  font-weight: 700;
+  text-decoration: none;
+}
+.btn--pay:hover{
+  background: var(--supernova);
+  color: #000;
+}
+
 .calendar{
   border-radius: 18px;
   border:1px solid rgba(255,255,255,.12);

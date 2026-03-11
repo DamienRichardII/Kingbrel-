@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#FFC500" />
   <title>KINGBREL — Réserver</title>
-  <meta name="description" content="KINGBREL — Réservation en ligne premium. Choisis ta prestation et ton créneau (10h → 20h)." />
+  <meta name="description" content="KINGBREL — Réservation en ligne premium. Choisis ta prestation et ton créneau (12h → 19h)." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
 </head>
 
 <body data-theme="light">
-  <!-- Header (identique à l'accueil) -->
+  <!-- Header -->
   <header class="siteHeader" role="banner">
     <div class="container siteHeader__inner">
       <div class="siteHeader__left" aria-hidden="true"></div>
@@ -41,8 +42,9 @@
   <main class="lightMain" id="main">
     <section class="lightHero">
       <div class="container">
+        <p class="lightKicker"><strong>Réservation</strong> • 12h → 19h • Livry-Gargan</p>
         <h1 class="lightTitle">Choisis ta prestation</h1>
-        <p class="lightLead">Sélectionne une catégorie, puis clique sur <strong>Réserver</strong>. Le calendrier s’ouvre avec les créneaux disponibles.</p>
+        <p class="lightLead">Sélectionne une catégorie, puis clique sur <strong>Réserver</strong>. Le calendrier s'ouvre avec les créneaux disponibles.</p>
       </div>
     </section>
 
@@ -65,38 +67,59 @@
             <div class="serviceRows">
               <div class="serviceRow">
                 <div class="serviceRow__name">Coupe simple</div>
-                <div class="serviceRow__meta">20€ • 45 min</div>
-                <button class="btn btn--book" data-book="coupe-simple">Réserver</button>
+                <div class="serviceRow__meta">25€ • 45 min</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="coupe-simple">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_COUPE_SIMPLE" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
               </div>
               <div class="serviceRow">
                 <div class="serviceRow__name">Coupe + Barbe</div>
-                <div class="serviceRow__meta">30€ • 1h</div>
-                <button class="btn btn--book" data-book="coupe-barbe">Réserver</button>
+                <div class="serviceRow__meta">35€ • 1h</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="coupe-barbe">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_COUPE_BARBE" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
+              </div>
+              <div class="serviceRow">
+                <div class="serviceRow__name">Coupe + Bouc</div>
+                <div class="serviceRow__meta">30€ • 50 min</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="coupe-bouc">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_COUPE_BOUC" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
               </div>
               <div class="serviceRow">
                 <div class="serviceRow__name">Contours</div>
-                <div class="serviceRow__meta">20€ • 45 min</div>
-                <button class="btn btn--book" data-book="contours">Réserver</button>
+                <div class="serviceRow__meta">15€ • 15 min</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="contours">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_CONTOURS" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
               </div>
               <div class="serviceRow">
-                <div class="serviceRow__name">Rasage de crâne (lame)</div>
-                <div class="serviceRow__meta">15€ • 20 min</div>
-                <button class="btn btn--book" data-book="rasage-lame">Réserver</button>
+                <div class="serviceRow__name">Rasage de crâne à la lame</div>
+                <div class="serviceRow__meta">20€ • 20 min</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="rasage-lame">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_RASAGE_LAME" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
               </div>
               <div class="serviceRow">
-                <div class="serviceRow__name">Rasage de crâne (tondeuse)</div>
-                <div class="serviceRow__meta">10€ • 15 min</div>
-                <button class="btn btn--book" data-book="rasage-tondeuse">Réserver</button>
+                <div class="serviceRow__name">Rasage de crâne à la tondeuse</div>
+                <div class="serviceRow__meta">15€ • 15 min</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="rasage-tondeuse">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_RASAGE_TONDEUSE" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
               </div>
               <div class="serviceRow">
-                <div class="serviceRow__name">Rasage tondeuse + barbe</div>
-                <div class="serviceRow__meta">20€ • 45 min</div>
-                <button class="btn btn--book" data-book="rasage-tondeuse-barbe">Réserver</button>
-              </div>
-              <div class="serviceRow">
-                <div class="serviceRow__name">Coupe enfant (-12 ans)</div>
-                <div class="serviceRow__meta">15€ • 35 min</div>
-                <button class="btn btn--book" data-book="enfant">Réserver</button>
+                <div class="serviceRow__name">Coupe junior (-18 ans)</div>
+                <div class="serviceRow__meta">20€ • 40 min</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="coupe-junior">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_COUPE_JUNIOR" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
               </div>
             </div>
           </div>
@@ -118,8 +141,11 @@
             <div class="serviceRows">
               <div class="serviceRow">
                 <div class="serviceRow__name">Barbe</div>
-                <div class="serviceRow__meta">10€ • 20 min</div>
-                <button class="btn btn--book" data-book="barbe">Réserver</button>
+                <div class="serviceRow__meta">15€ • 25 min</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="barbe">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_BARBE" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
               </div>
             </div>
           </div>
@@ -132,7 +158,7 @@
             <div class="accordion__meta">
               <div class="accordion__tag">Dépliant</div>
               <div class="accordion__title">Colorations</div>
-              <div class="accordion__desc">Sur devis • Demande d’info possible en commentaire</div>
+              <div class="accordion__desc">Sur devis • Demande d'info possible en commentaire</div>
             </div>
             <div class="accordion__chev" aria-hidden="true">+</div>
           </summary>
@@ -142,54 +168,72 @@
               <div class="serviceRow">
                 <div class="serviceRow__name">Coloration</div>
                 <div class="serviceRow__meta">Sur devis • 1h30</div>
-                <button class="btn btn--book" data-book="coloration">Réserver</button>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="coloration">Réserver</button>
+                </div>
               </div>
               <div class="serviceRow">
                 <div class="serviceRow__name">Décoloration</div>
                 <div class="serviceRow__meta">Sur devis • 1h30</div>
-                <button class="btn btn--book" data-book="decoloration">Réserver</button>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="decoloration">Réserver</button>
+                </div>
               </div>
             </div>
           </div>
         </details>
 
-        
+        <!-- 4) Soins du visage -->
+        <details class="accordion">
+          <summary class="accordion__summary">
+            <div class="accordion__media accordion__media--blank" aria-hidden="true">
+              <span class="accordion__blankMark">★</span>
+            </div>
+            <div class="accordion__meta">
+              <div class="accordion__tag">Dépliant</div>
+              <div class="accordion__title">Soins du visage</div>
+              <div class="accordion__desc">Soin premium • Peau nette & hydratée</div>
+            </div>
+            <div class="accordion__chev" aria-hidden="true">+</div>
+          </summary>
+
+          <div class="accordion__body">
+            <div class="serviceRows">
+              <div class="serviceRow">
+                <div class="serviceRow__name">Soin du visage</div>
+                <div class="serviceRow__meta">25€ • 1h</div>
+                <div class="serviceRow__actions">
+                  <button class="btn btn--book" data-book="soin-visage">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_SOIN_VISAGE" target="_blank" rel="noopener">Payer en ligne</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
 
       </div>
     </section>
   </main>
 
-  <!-- Footer (conservé) -->
-    <footer class="siteFooter">
+  <!-- Footer sans adresse -->
+  <footer class="siteFooter">
     <div class="container siteFooter__inner">
       <div class="siteFooter__col">
         <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
-        <p style="margin:8px 0 0; color: rgba(255,255,255,.45); font-size:.75rem; line-height:1.6">
-          © <span id="kbYear"></span> KINGBREL — Tous droits réservés
-        </p>
       </div>
-      <div class="siteFooter__col">
-        <div class="siteFooter__title">Nous trouver</div>
-      </div>
+
       <div class="siteFooter__col siteFooter__col--right">
         <div class="siteFooter__title">Nous contacter</div>
         <a class="btn btn--footer" href="./contact.html">Page contact</a>
-        <div style="height:8px"></div>
-        <a class="btn btn--footer" href="./mentions-legales.html">Mentions légales</a>
-        <div style="height:8px"></div>
-        <a class="btn btn--footer" href="./rgpd.html">RGPD &amp; Confidentialité</a>
-        <div style="height:8px"></div>
-        <a class="btn btn--footer" href="./cookies.html">Cookies</a>
       </div>
     </div>
   </footer>
-  <script>document.getElementById("kbYear")&&(document.getElementById("kbYear").textContent=new Date().getFullYear())</script>
 
-  <script src="./js/app.js"></script>
-  <script src="./js/booking.js"></script>
+  <script src="./js/app.js" defer></script>
+  <script src="./js/booking.js" defer></script>
+
   <script defer>
     window.addEventListener("DOMContentLoaded", () => {
-      // UX: ferme les autres accordéons quand on en ouvre un
       const accordions = Array.from(document.querySelectorAll(".accordion"));
       accordions.forEach(d => {
         d.addEventListener("toggle", () => {
@@ -198,7 +242,6 @@
         });
       });
 
-      // CTA réservation -> ouvre le calendrier de réservation
       document.addEventListener("click", (e) => {
         const btn = e.target.closest("[data-book]");
         if (!btn) return;
