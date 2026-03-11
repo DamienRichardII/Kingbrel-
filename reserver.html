@@ -9,10 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
 </head>
 
 <body data-theme="light">
-  <!-- Header (identique à l'accueil) -->
+  <!-- Header -->
   <header class="siteHeader" role="banner">
     <div class="container siteHeader__inner">
       <div class="siteHeader__left" aria-hidden="true"></div>
@@ -43,7 +44,7 @@
       <div class="container">
         <p class="lightKicker"><strong>Réservation</strong> • 12h → 19h • Livry-Gargan</p>
         <h1 class="lightTitle">Choisis ta prestation</h1>
-        <p class="lightLead">Sélectionne une catégorie, puis clique sur <strong>Réserver</strong>. Le calendrier s’ouvre avec les créneaux disponibles.</p>
+        <p class="lightLead">Sélectionne une catégorie, puis clique sur <strong>Réserver</strong>. Le calendrier s'ouvre avec les créneaux disponibles.</p>
       </div>
     </section>
 
@@ -66,38 +67,38 @@
             <div class="serviceRows">
               <div class="serviceRow">
                 <div class="serviceRow__name">Coupe simple</div>
-                <div class="serviceRow__meta">20€ • 45 min</div>
+                <div class="serviceRow__meta">25€ • 45 min</div>
                 <button class="btn btn--book" data-book="coupe-simple">Réserver</button>
               </div>
               <div class="serviceRow">
                 <div class="serviceRow__name">Coupe + Barbe</div>
-                <div class="serviceRow__meta">30€ • 1h</div>
+                <div class="serviceRow__meta">35€ • 1h</div>
                 <button class="btn btn--book" data-book="coupe-barbe">Réserver</button>
               </div>
               <div class="serviceRow">
+                <div class="serviceRow__name">Coupe + Bouc</div>
+                <div class="serviceRow__meta">30€ • 50 min</div>
+                <button class="btn btn--book" data-book="coupe-bouc">Réserver</button>
+              </div>
+              <div class="serviceRow">
                 <div class="serviceRow__name">Contours</div>
-                <div class="serviceRow__meta">20€ • 45 min</div>
+                <div class="serviceRow__meta">15€ • 15 min</div>
                 <button class="btn btn--book" data-book="contours">Réserver</button>
               </div>
               <div class="serviceRow">
-                <div class="serviceRow__name">Rasage de crâne (lame)</div>
-                <div class="serviceRow__meta">15€ • 20 min</div>
+                <div class="serviceRow__name">Rasage de crâne à la lame</div>
+                <div class="serviceRow__meta">20€ • 20 min</div>
                 <button class="btn btn--book" data-book="rasage-lame">Réserver</button>
               </div>
               <div class="serviceRow">
-                <div class="serviceRow__name">Rasage de crâne (tondeuse)</div>
-                <div class="serviceRow__meta">10€ • 15 min</div>
+                <div class="serviceRow__name">Rasage de crâne à la tondeuse</div>
+                <div class="serviceRow__meta">15€ • 15 min</div>
                 <button class="btn btn--book" data-book="rasage-tondeuse">Réserver</button>
               </div>
               <div class="serviceRow">
-                <div class="serviceRow__name">Rasage tondeuse + barbe</div>
-                <div class="serviceRow__meta">20€ • 45 min</div>
-                <button class="btn btn--book" data-book="rasage-tondeuse-barbe">Réserver</button>
-              </div>
-              <div class="serviceRow">
-                <div class="serviceRow__name">Coupe enfant (-12 ans)</div>
-                <div class="serviceRow__meta">15€ • 35 min</div>
-                <button class="btn btn--book" data-book="enfant">Réserver</button>
+                <div class="serviceRow__name">Coupe junior (-18 ans)</div>
+                <div class="serviceRow__meta">20€ • 40 min</div>
+                <button class="btn btn--book" data-book="coupe-junior">Réserver</button>
               </div>
             </div>
           </div>
@@ -119,7 +120,7 @@
             <div class="serviceRows">
               <div class="serviceRow">
                 <div class="serviceRow__name">Barbe</div>
-                <div class="serviceRow__meta">10€ • 20 min</div>
+                <div class="serviceRow__meta">15€ • 25 min</div>
                 <button class="btn btn--book" data-book="barbe">Réserver</button>
               </div>
             </div>
@@ -133,7 +134,7 @@
             <div class="accordion__meta">
               <div class="accordion__tag">Dépliant</div>
               <div class="accordion__title">Colorations</div>
-              <div class="accordion__desc">Sur devis • Demande d’info possible en commentaire</div>
+              <div class="accordion__desc">Sur devis • Demande d'info possible en commentaire</div>
             </div>
             <div class="accordion__chev" aria-hidden="true">+</div>
           </summary>
@@ -183,16 +184,11 @@
     </section>
   </main>
 
-  <!-- Footer (conservé) -->
+  <!-- Footer sans adresse -->
   <footer class="siteFooter">
     <div class="container siteFooter__inner">
       <div class="siteFooter__col">
         <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
-      </div>
-
-      <div class="siteFooter__col">
-        <div class="siteFooter__title">Nous trouver</div>
-        <div class="siteFooter__text">14 rue Pachot Lainé, Livry Gargan, 93046</div>
       </div>
 
       <div class="siteFooter__col siteFooter__col--right">
@@ -203,31 +199,29 @@
   </footer>
 
   <script src="./js/app.js" defer></script>
-<script src="./js/booking.js" defer></script>
+  <script src="./js/booking.js" defer></script>
 
-<script defer>
-  // UX: ferme les autres panneaux quand on en ouvre un (premium & lisible)
-  window.addEventListener("DOMContentLoaded", () => {
-    const accordions = Array.from(document.querySelectorAll(".accordion"));
-    accordions.forEach(d => {
-      d.addEventListener("toggle", () => {
-        if (!d.open) return;
-        accordions.forEach(o => { if (o !== d) o.open = false; });
+  <script defer>
+    window.addEventListener("DOMContentLoaded", () => {
+      const accordions = Array.from(document.querySelectorAll(".accordion"));
+      accordions.forEach(d => {
+        d.addEventListener("toggle", () => {
+          if (!d.open) return;
+          accordions.forEach(o => { if (o !== d) o.open = false; });
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-book]");
+        if (!btn) return;
+        e.preventDefault();
+        if (typeof window.openBooking === "function") {
+          window.openBooking(btn.getAttribute("data-book"));
+        } else {
+          console.error("openBooking n'est pas chargé.");
+        }
       });
     });
-
-    // CTA réservation -> ouvre le calendrier
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-book]");
-      if (!btn) return;
-      e.preventDefault();
-      if (typeof window.openBooking === "function") {
-        window.openBooking(btn.getAttribute("data-book"));
-      } else {
-        console.error("openBooking n'est pas chargé.");
-      }
-    });
-  });
-</script>
+  </script>
 </body>
 </html>
