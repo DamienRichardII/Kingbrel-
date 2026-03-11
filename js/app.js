@@ -1,5 +1,5 @@
 const KINGBREL = {
-  address: "14 rue Pachot Lainé, Livry Gargan, 93046",
+  address: "4 rue Pachot Lainé, Livry Gargan, 93046",
   instagram: "https://www.instagram.com/kingbrel__/",
   tiktok: "https://www.tiktok.com/@kingbrel__",
   phone: "", // optional
@@ -51,8 +51,16 @@ function injectHeaderFooter(){
           </p>
         </div>
         <div>
+          <h4 class="footerTitle">Nous trouver</h4>
+          <p style="margin:0; color: rgba(255,255,255,.82); line-height:1.6">${KINGBREL.address}</p>
+        </div>
+        <div>
           <h4 class="footerTitle">Nous contacter</h4>
           <a class="btn btn--primary" href="./contact.html">Accéder à la page contact</a>
+          <div style="height:10px"></div>
+          <a class="btn" href="./admin.html">Accès admin</a>
+          <div style="height:8px"></div>
+          <a class="btn" href="./planning.html">Planning</a>
         </div>
         <div>
           <h4 class="footerTitle">Nous suivre</h4>
@@ -76,7 +84,8 @@ function injectHeaderFooter(){
       </div>
     </div>
   `;
-  // header/footer déjà présents dans le HTML — injection désactivée
+  document.body.prepend(header);
+  document.body.append(footer);
   const y = $("#year");
   if (y) y.textContent = new Date().getFullYear();
 }
@@ -111,7 +120,12 @@ function setLightThemeIfNeeded(){
 }
 
 document.addEventListener("DOMContentLoaded", ()=>{
-  injectHeaderFooter();
+  // IMPORTANT: ce projet est souvent ouvert en double‑cliquant (file://).
+  // Pour éviter les soucis CORS liés aux scripts ES modules, on reste en scripts classiques.
+
+  // Certaines pages incluent déjà un header/footer en HTML.
+  // Donc on n'injecte rien automatiquement ici.
+
   setLightThemeIfNeeded();
   pageEnter();
 
@@ -126,4 +140,5 @@ document.addEventListener("DOMContentLoaded", ()=>{
   }
 });
 
-export { KINGBREL, $, $all, toast };
+// Expose helpers globally (no-module build)
+window.KBApp = { KINGBREL, $, $all, toast };

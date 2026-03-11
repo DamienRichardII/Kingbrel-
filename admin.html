@@ -5,53 +5,341 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <title>KINGBREL — Admin</title>
-  <meta name="description" content="KINGBREL — Coiffeur à Livry-Gargan. Réservation en ligne premium." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./css/style.css" />
-  <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
+  <style>
+    /* Admin tabs */
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .admin-tab {
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,.15);
+      background: transparent;
+      color: rgba(255,255,255,.7);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .admin-tab.active {
+      background: var(--supernova);
+      color: #000;
+      border-color: var(--supernova);
+    }
+    .admin-pane { display: none; }
+    .admin-pane.active { display: block; }
+
+    /* All bookings table */
+    .booking-filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .badge-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--supernova);
+      color: #000;
+      font-weight: 800;
+      font-size: .75rem;
+      border-radius: 50px;
+      padding: 2px 8px;
+      min-width: 22px;
+    }
+    .booking-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.09);
+      border-left: 3px solid var(--supernova);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 10px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: start;
+    }
+    .bc-time {
+      font-size: .85rem;
+      font-weight: 800;
+      color: var(--supernova);
+      white-space: nowrap;
+    }
+    .bc-date { font-size: .75rem; color: rgba(255,255,255,.5); margin-top: 2px; }
+    .bc-name { font-weight: 800; margin-bottom: 4px; }
+    .bc-meta { font-size: .8rem; color: rgba(255,255,255,.6); line-height: 1.7; }
+    .bc-service {
+      font-size: .75rem;
+      background: rgba(244,200,0,.15);
+      border: 1px solid rgba(244,200,0,.25);
+      border-radius: 50px;
+      padding: 2px 10px;
+      color: var(--supernova);
+      font-weight: 700;
+      white-space: nowrap;
+      align-self: start;
+    }
+
+    /* Email config */
+    .email-config-panel .field { margin-bottom: 14px; }
+    .email-status {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: .88rem;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .email-status.ok { background: rgba(0,200,80,.15); border: 1px solid rgba(0,200,80,.3); color: #4dff94; }
+    .email-status.err { background: rgba(255,80,80,.15); border: 1px solid rgba(255,80,80,.3); color: #ff8080; }
+    .email-status.info { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.65); }
+
+    @media (max-width: 600px) {
+      .booking-card { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-  
+
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html">Réserver</a>
+          <a class="btn btn--headerGhost" href="./contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
 <main id="main" class="main">
   <section class="section">
     <div class="container">
-      <p class="kicker" style="margin:0 0 10px"><strong style="color: var(--supernova)">Admin</strong> • Disponibilités • Réservations</p>
-      <h1 class="pageTitle">Espace administrateur</h1>
-      <p class="pageLead">
-        Ici, tu définis les disponibilités du calendrier. Les réservations sont stockées localement dans le navigateur (V1).
-        Pour une vraie prod multi‑appareils, on branche une base + authentification (V2).
+      <p class="kicker" style="margin:0 0 10px">
+        <strong style="color: var(--supernova)">Admin</strong> • Disponibilités • Réservations • Planning
       </p>
+      <h1 class="pageTitle">Espace administrateur</h1>
+
+      <!-- Barre de navigation admin -->
+      <nav class="admin-page-nav" style="margin-top:16px">
+        <span style="font-size:.72rem; font-weight:700; color:rgba(255,255,255,.35); align-self:center; white-space:nowrap">ESPACE ADMIN</span>
+        <button class="admin-tab active" data-tab="reservations">📋 Réservations</button>
+        <button class="admin-tab" data-tab="disponibilites">📅 Disponibilités</button>
+        <button class="admin-tab" data-tab="noshow">⚠️ No-Shows</button>
+        <button class="admin-tab" data-tab="email">✉️ Email</button>
+        <a href="./planning.html" style="background:var(--supernova); color:#000; border-color:var(--supernova)">📆 Planning</a>
+      </nav>
 
       <div style="margin-top:16px" id="stats"></div>
 
-      <div class="panel" style="margin-top:16px">
-        <div class="field" style="max-width:320px">
-          <div class="label">Choisir une date</div>
-          <input class="input" type="date" id="adminDate" />
+      <!-- PANE: Toutes les réservations -->
+      <div class="admin-pane active" id="pane-reservations">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px">
+            <div>
+              <h3 style="margin:0 0 4px">Toutes les réservations <span class="badge-count" id="totalBadge">0</span></h3>
+              <p style="margin:0; color: rgba(255,255,255,.55); font-size:.85rem">Toutes les réservations enregistrées, triées par date.</p>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap">
+              <button class="btn" id="exportAllCSV">Exporter tout en CSV</button>
+              <button class="btn" id="wipeAll" style="color:#ff8080; border-color:rgba(255,80,80,.3)">Tout supprimer</button>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="booking-filter-bar">
+            <select class="input" id="filterPeriod" style="max-width:180px; padding:8px 12px">
+              <option value="all">Toutes les dates</option>
+              <option value="today">Aujourd'hui</option>
+              <option value="week">Cette semaine</option>
+              <option value="upcoming">À venir</option>
+              <option value="past">Passées</option>
+            </select>
+            <input class="input" id="filterSearch" placeholder="Rechercher un client…" style="max-width:240px; padding:8px 12px" />
+            <select class="input" id="filterService" style="max-width:200px; padding:8px 12px">
+              <option value="">Toutes les prestations</option>
+            </select>
+          </div>
+
+          <div id="allBookingsList"></div>
         </div>
       </div>
 
-      <div style="margin-top:16px; display:grid; gap:16px">
-        <div id="dayEditor"></div>
-        <div id="bookingList"></div>
+      <!-- PANE: Disponibilités (ancien comportement) -->
+      <div class="admin-pane" id="pane-disponibilites">
+        <div class="panel">
+          <div class="field" style="max-width:320px">
+            <div class="label">Choisir une date</div>
+            <input class="input" type="date" id="adminDate" />
+          </div>
+        </div>
+        <div style="margin-top:16px; display:grid; gap:16px">
+          <div id="dayEditor"></div>
+          <div id="bookingList"></div>
+        </div>
       </div>
 
-      <div class="panel" style="margin-top:16px">
-        <h3 style="margin:0 0 6px">Tip</h3>
-        <p style="margin:0; color: rgba(255,255,255,.72); line-height:1.6">
-          Pour repartir de zéro, ouvre la console et exécute :
-          <code style="background: rgba(255,255,255,.06); padding:4px 8px; border-radius:10px">localStorage.clear()</code>
-        </p>
+      <!-- PANE: No-Shows -->
+      <div class="admin-pane" id="pane-noshow">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:14px">
+            <div>
+              <h3 style="margin:0 0 4px">⚠️ Gestion des No-Shows</h3>
+              <p style="margin:0; color: rgba(255,255,255,.55); font-size:.85rem">
+                Marque manuellement les clients absents. Le montant à prélever est calculé automatiquement (50% de la prestation).
+              </p>
+            </div>
+          </div>
+
+          <!-- Ajouter un no-show manuellement -->
+          <div style="background: rgba(255,100,100,.06); border: 1px solid rgba(255,100,100,.2); border-radius: 14px; padding: 16px; margin-bottom: 16px">
+            <h4 style="margin:0 0 12px; color: #ff8080">➕ Signaler un no-show manuellement</h4>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px">
+              <div class="field" style="margin:0">
+                <div class="label">Client (nom)</div>
+                <input class="input" id="ns_name" placeholder="Ex: Karim B." />
+              </div>
+              <div class="field" style="margin:0">
+                <div class="label">Prestation</div>
+                <select class="input" id="ns_service">
+                  <option value="">Choisir une prestation</option>
+                  <option value="Coupe simple|20€|10€">Coupe simple — 20€ (no-show: 10€)</option>
+                  <option value="Coupe + Barbe|30€|15€">Coupe + Barbe — 30€ (no-show: 15€)</option>
+                  <option value="Contours|20€|10€">Contours — 20€ (no-show: 10€)</option>
+                  <option value="Rasage de crâne (lame)|15€|7.50€">Rasage lame — 15€ (no-show: 7.50€)</option>
+                  <option value="Rasage de crâne (tondeuse)|10€|5€">Rasage tondeuse — 10€ (no-show: 5€)</option>
+                  <option value="Rasage tondeuse + barbe|20€|10€">Rasage + barbe — 20€ (no-show: 10€)</option>
+                  <option value="Coupe enfant|15€|7.50€">Coupe enfant — 15€ (no-show: 7.50€)</option>
+                  <option value="Barbe|10€|5€">Barbe — 10€ (no-show: 5€)</option>
+                  <option value="Coloration|Sur devis|Sur devis">Coloration — Sur devis</option>
+                  <option value="Décoloration|Sur devis|Sur devis">Décoloration — Sur devis</option>
+                  <option value="Soin du visage|25€|12.50€">Soin du visage — 25€ (no-show: 12.50€)</option>
+                </select>
+              </div>
+              <div class="field" style="margin:0">
+                <div class="label">Date du RDV manqué</div>
+                <input class="input" id="ns_date" type="date" />
+              </div>
+              <div class="field" style="margin:0">
+                <div class="label">Heure du RDV</div>
+                <input class="input" id="ns_time" type="time" />
+              </div>
+            </div>
+            <div class="field" style="margin:0 0 12px">
+              <div class="label">Note (optionnel)</div>
+              <input class="input" id="ns_note" placeholder="Ex: Client prévenu par SMS, carte ••••1234" />
+            </div>
+            <button class="btn btn--primary" id="addNoShow" style="background:#ff6b6b; border-color:#ff6b6b; color:#fff">
+              ⚠️ Enregistrer le no-show
+            </button>
+          </div>
+
+          <!-- Liste des no-shows -->
+          <div id="noShowList"></div>
+        </div>
       </div>
+
+      <!-- PANE: Notifications email -->
+      <div class="admin-pane" id="pane-email">
+        <div class="panel email-config-panel">
+          <h3 style="margin:0 0 8px">Notifications par email</h3>
+          <p style="margin:0 0 16px; color: rgba(255,255,255,.65); line-height:1.7">
+            Configure les notifications email via <strong>EmailJS</strong> (service gratuit jusqu'à 200 emails/mois).<br>
+            <a href="https://www.emailjs.com" target="_blank" rel="noreferrer" style="color:var(--supernova)">Créer un compte EmailJS gratuit →</a>
+          </p>
+
+          <div class="field">
+            <div class="label">Email de l'admin (destinataire des notifications)</div>
+            <input class="input" id="adminEmail" type="email" placeholder="ton-email@exemple.com" />
+          </div>
+
+          <div class="hr"></div>
+          <p style="margin:0 0 10px; font-weight:700; font-size:.9rem">Configuration EmailJS</p>
+
+          <div class="field">
+            <div class="label">Service ID EmailJS</div>
+            <input class="input" id="ejsServiceId" placeholder="service_xxxxxxx" />
+          </div>
+          <div class="field">
+            <div class="label">Template ID EmailJS</div>
+            <input class="input" id="ejsTemplateId" placeholder="template_xxxxxxx" />
+          </div>
+          <div class="field">
+            <div class="label">Public Key (User ID) EmailJS</div>
+            <input class="input" id="ejsPublicKey" placeholder="xxxxxxxxxxxxxxxxxxxx" />
+          </div>
+
+          <button class="btn btn--primary" id="saveEmailConfig">Enregistrer la configuration</button>
+          <button class="btn" id="testEmail" style="margin-left:10px">Envoyer un email de test</button>
+
+          <div id="emailStatus" class="email-status ok" style="margin-top:12px">
+            ✅ EmailJS préconfiguré — Notifications actives vers damien.miyouna@gmail.com (modifiable ci-dessus)
+          </div>
+
+          <div class="hr" style="margin-top:20px"></div>
+          <h4 style="margin:0 0 10px">Guide rapide EmailJS</h4>
+          <ol style="color: rgba(255,255,255,.65); line-height:2; padding-left:18px; margin:0">
+            <li>Crée un compte sur <a href="https://www.emailjs.com" target="_blank" style="color:var(--supernova)">emailjs.com</a></li>
+            <li>Ajoute un <strong>Service</strong> email (Gmail, Outlook…) → note le <strong>Service ID</strong></li>
+            <li>Crée un <strong>Template</strong> avec les variables : <code>{{to_email}}</code>, <code>{{client_name}}</code>, <code>{{service_name}}</code>, <code>{{date}}</code>, <code>{{start}}</code>, <code>{{end}}</code>, <code>{{client_phone}}</code>, <code>{{client_email}}</code>, <code>{{note}}</code></li>
+            <li>Copie ton <strong>Public Key</strong> depuis Account → API Keys</li>
+            <li>Colle les 3 valeurs ci-dessus et enregistre</li>
+          </ol>
+        </div>
+      </div>
+
+<!-- debug panel masqué -->
     </div>
   </section>
 </main>
 
-<script type="module" src="./js/admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/admin.js"></script>
 
 
-  <script type="module" src="./js/app.js"></script>
-  
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+        <p style="margin:8px 0 0; color: rgba(255,255,255,.45); font-size:.75rem; line-height:1.6">
+          © <span id="kbYear"></span> KINGBREL — Tous droits réservés
+        </p>
+      </div>
+      <div class="siteFooter__col">
+        <div class="siteFooter__title">Nous trouver</div>
+      </div>
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./mentions-legales.html">Mentions légales</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./rgpd.html">RGPD &amp; Confidentialité</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./cookies.html">Cookies</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById("kbYear")&&(document.getElementById("kbYear").textContent=new Date().getFullYear())</script>
+
 </body>
 </html>

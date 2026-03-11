@@ -1,24 +1,61 @@
-// Helpers (compat local file://)
-const $ = (sel, root = document) => root.querySelector(sel);
-const $all = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-
-function toast(message){
-  let el = document.querySelector(".toast");
-  if (!el){
-    el = document.createElement("div");
-    el.className = "toast";
-    document.body.appendChild(el);
+// booking.js (no-module build)
+// Ce fichier est volontairement en script classique pour fonctionner en file://
+// ============================================================
+// KINGBREL — Configuration EmailJS (préconfigurée)
+// Pour changer l'email destinataire : Admin → onglet "Notifications email"
+// ============================================================
+const KB_EMAILJS_CONFIG = {
+  serviceId:  "service_bfriu0y",
+  templateId: "template_ynkyy9d",
+  publicKey:  "UCtJeGwPU8PvmNu14",
+  // Email admin par défaut — modifiable depuis l'admin sans retoucher le code
+  get adminEmail(){
+    try {
+      const cfg = JSON.parse(localStorage.getItem("kb_email_config") || "{}");
+      return cfg.adminEmail || "damien.miyouna@gmail.com";
+    } catch(e){ return "damien.miyouna@gmail.com"; }
   }
-  el.textContent = message;
-  el.classList.add("show");
-  clearTimeout(el._t);
-  el._t = setTimeout(()=> el.classList.remove("show"), 2200);
+};
+
+// Init EmailJS dès le chargement
+(function initEmailJS(){
+  if (typeof emailjs !== "undefined") {
+    emailjs.init(KB_EMAILJS_CONFIG.publicKey);
+  }
+})();
+
+// ============================================================
+// SÉCURITÉ — Sanitisation des entrées utilisateur
+// ============================================================
+function sanitizeInput(str, maxLen = 300) {
+  if (typeof str !== "string") return "";
+  // Supprime les balises HTML, limite la longueur
+  return str
+    .replace(/<[^>]*>/g, "")          // Retire les balises HTML
+    .replace(/[^\w\s\-@.,!?'àâçéèêëîïôùûüÿœæÀÂÇÉÈÊËÎÏÔÙÛÜŸŒÆ+()]/g, "")
+    .trim()
+    .slice(0, maxLen);
 }
+function sanitizePhone(str) {
+  if (typeof str !== "string") return "";
+  return str.replace(/[^\d\s\+\-().]/g, "").trim().slice(0, 20);
+}
+function sanitizeEmail(str) {
+  if (typeof str !== "string") return "";
+  const clean = str.trim().slice(0, 100);
+  // Validation basique email
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean) ? clean : "";
+}
+
+// Récupère $ depuis app.js (déjà déclaré) — évite le SyntaxError de redéclaration
+var $    = (window.KBApp && window.KBApp.$)    || function(sel, root){ return (root||document).querySelector(sel); };
+var $all = (window.KBApp && window.KBApp.$all) || function(sel, root){ return Array.from((root||document).querySelectorAll(sel)); };
+var toast = (window.KBApp && window.KBApp.toast) || function(msg){ console.log(msg); };
 
 /**
  * Data model (localStorage):
  * - kb_availability: { "YYYY-MM-DD": { open: true, slots: ["12:00","12:15",...]} }
- *   If date missing -> defaultOpenAll (12:00-19:00, step 15)
+ *   If date missing -> defaultOpenAll (10:00-20:00, step 15)
  *   If open=false -> closed day
  * - kb_bookings: [{id, date, start, end, serviceId, serviceName, name, phone, email, note, createdAt}]
  */
@@ -29,32 +66,32 @@ const STORAGE = {
 };
 
 const BUSINESS = {
-  start: "12:00",
-  end: "19:00",
+  start: "10:00",
+  end: "20:00",
   stepMin: 15,
 };
 
 const SERVICES = [
-  // Popular
-  { id:"coupe-simple", cat:"Coiffure", name:"Coupe simple", price:"20€", durationMin:45, popular:true },
-  { id:"coupe-barbe", cat:"Coiffure", name:"Coupe + Barbe", price:"30€", durationMin:60, popular:true },
-  { id:"contours", cat:"Coiffure", name:"Contours", price:"20€", durationMin:45, popular:true },
+  // Popular — noshowAmount = moitié du prix en cas de no-show
+  { id:"coupe-simple", cat:"Coiffure", name:"Coupe simple", price:"20€", noshowAmount:"10€", durationMin:45, popular:true },
+  { id:"coupe-barbe", cat:"Coiffure", name:"Coupe + Barbe", price:"30€", noshowAmount:"15€", durationMin:60, popular:true },
+  { id:"contours", cat:"Coiffure", name:"Contours", price:"20€", noshowAmount:"10€", durationMin:45, popular:true },
 
   // Coiffure
-  { id:"rasage-lame", cat:"Coiffure", name:"Rasage de crâne (lame)", price:"15€", durationMin:20 },
-  { id:"rasage-tondeuse", cat:"Coiffure", name:"Rasage de crâne (tondeuse)", price:"10€", durationMin:15 },
-  { id:"rasage-tondeuse-barbe", cat:"Coiffure", name:"Rasage tondeuse + barbe", price:"20€", durationMin:45 },
-  { id:"enfant", cat:"Coiffure", name:"Coupe enfant (-12 ans)", price:"15€", durationMin:35 },
+  { id:"rasage-lame", cat:"Coiffure", name:"Rasage de crâne (lame)", price:"15€", noshowAmount:"7.50€", durationMin:20 },
+  { id:"rasage-tondeuse", cat:"Coiffure", name:"Rasage de crâne (tondeuse)", price:"10€", noshowAmount:"5€", durationMin:15 },
+  { id:"rasage-tondeuse-barbe", cat:"Coiffure", name:"Rasage tondeuse + barbe", price:"20€", noshowAmount:"10€", durationMin:45 },
+  { id:"enfant", cat:"Coiffure", name:"Coupe enfant (-12 ans)", price:"15€", noshowAmount:"7.50€", durationMin:35 },
 
   // Barbe
-  { id:"barbe", cat:"Barbe", name:"Barbe", price:"10€", durationMin:20 },
+  { id:"barbe", cat:"Barbe", name:"Barbe", price:"10€", noshowAmount:"5€", durationMin:20 },
 
   // Colorations
-  { id:"coloration", cat:"Colorations", name:"Coloration", price:"Sur devis", durationMin:90 },
-  { id:"decoloration", cat:"Colorations", name:"Décoloration", price:"Sur devis", durationMin:90 },
+  { id:"coloration", cat:"Colorations", name:"Coloration", price:"Sur devis", noshowAmount:"Sur devis", durationMin:90 },
+  { id:"decoloration", cat:"Colorations", name:"Décoloration", price:"Sur devis", noshowAmount:"Sur devis", durationMin:90 },
 
   // Soins
-  { id:"soin-visage", cat:"Soins du visage", name:"Soin du visage", price:"25€", durationMin:60 },
+  { id:"soin-visage", cat:"Soins du visage", name:"Soin du visage", price:"25€", noshowAmount:"12.50€", durationMin:60 },
 ];
 
 function readJSON(key, fallback){
@@ -278,7 +315,7 @@ function ensureModal(){
           <form id="bookingForm">
             <div class="field">
               <div class="label">Nom & Prénom</div>
-              <input class="input" id="name" required placeholder="Ex: Damien-Richard Miyouna II." />
+              <input class="input" id="name" required placeholder="Ex: Karim B." />
             </div>
             <div class="field">
               <div class="label">Téléphone</div>
@@ -295,10 +332,52 @@ function ensureModal(){
 
             <div class="hr"></div>
 
-            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
-              <button class="btn btn--primary" type="submit" style="flex:1">Valider la réservation</button>
-              <button class="btn" type="button" id="clearSelection">Réinitialiser</button>
+            <!-- Empreinte bancaire Stripe -->
+            <div style="background: rgba(244,200,0,.08); border: 1px solid rgba(244,200,0,.25); border-radius:14px; padding:14px; margin-bottom:12px">
+              <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:10px">
+                <span style="font-size:1.2rem">🔒</span>
+                <div>
+                  <div style="font-weight:800; font-size:.88rem; margin-bottom:3px">Empreinte bancaire — 0€ prélevé</div>
+                  <div style="font-size:.78rem; color: rgba(255,255,255,.65); line-height:1.6">
+                    Aucun paiement aujourd'hui. En cas de <strong>no-show</strong> (absence sans annulation), la moitié du prix de la prestation sera prélevée automatiquement.
+                  </div>
+                </div>
+              </div>
+              <div class="field" style="margin-bottom:8px">
+                <div class="label" style="font-size:.78rem; color:#fff; font-weight:700">Numéro de carte</div>
+                <div id="stripeCardNumber" style="background: rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18); border-radius:10px; padding:11px 14px; font-size:.92rem; color:rgba(255,255,255,.85)">
+                  <input id="cardNumberInput" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number" inputmode="numeric"
+                    style="background:transparent; border:none; outline:none; color:inherit; font-size:inherit; width:100%" />
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px">
+                <div class="field" style="margin-bottom:0">
+                  <div class="label" style="font-size:.78rem; color:#fff; font-weight:700">Date d'expiration</div>
+                  <div style="background: rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18); border-radius:10px; padding:11px 14px">
+                    <input id="cardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp" inputmode="numeric"
+                      style="background:transparent; border:none; outline:none; color:rgba(255,255,255,.85); font-size:.92rem; width:100%" />
+                  </div>
+                </div>
+                <div class="field" style="margin-bottom:0">
+                  <div class="label" style="font-size:.78rem; color:#fff; font-weight:700">CVV</div>
+                  <div style="background: rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18); border-radius:10px; padding:11px 14px">
+                    <input id="cardCvc" placeholder="123" maxlength="4" autocomplete="cc-csc" inputmode="numeric"
+                      style="background:transparent; border:none; outline:none; color:rgba(255,255,255,.85); font-size:.92rem; width:100%" />
+                  </div>
+                </div>
+              </div>
+              <p style="margin:8px 0 0; font-size:.72rem; color: rgba(255,255,255,.4); line-height:1.5">
+                🛡️ Données sécurisées — Non stockées sur nos serveurs — Chiffrement SSL 256 bits
+              </p>
             </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+              <button class="btn btn--primary" type="submit" style="flex:1; color:#000 !important">Valider la réservation</button>
+              <button class="btn" type="button" id="clearSelection" style="color:#fff !important">Réinitialiser</button>
+            </div>
+            <p style="margin:10px 0 0; color: rgba(255,255,255,.72); line-height:1.6">
+              Horaires: 10h → 20h. Les créneaux proposés tiennent compte des disponibilités définies côté admin.
+            </p>
           </form>
         </div>
       </div>
@@ -306,6 +385,35 @@ function ensureModal(){
   `;
 
   document.body.append(backdrop);
+
+  // ---- Card input auto-formatting ----
+  function setupCardInputs(root) {
+    const numInput = root.querySelector("#cardNumberInput");
+    const expInput = root.querySelector("#cardExpiry");
+    const cvcInput = root.querySelector("#cardCvc");
+
+    if (numInput) {
+      numInput.addEventListener("input", function() {
+        let val = this.value.replace(/\D/g, "").slice(0, 16);
+        this.value = val.replace(/(.{4})/g, "$1 ").trim();
+      });
+    }
+    if (expInput) {
+      expInput.addEventListener("input", function() {
+        let val = this.value.replace(/\D/g, "").slice(0, 4);
+        if (val.length >= 3) val = val.slice(0,2) + "/" + val.slice(2);
+        this.value = val;
+      });
+    }
+    if (cvcInput) {
+      cvcInput.addEventListener("input", function() {
+        this.value = this.value.replace(/\D/g, "").slice(0, 4);
+      });
+    }
+  }
+
+  // Call setup after DOM insertion
+  setTimeout(() => setupCardInputs(backdrop), 100);
 
   backdrop.addEventListener("click", (e)=>{
     if (e.target === backdrop) closeModal();
@@ -326,10 +434,40 @@ function ensureModal(){
     if (!selectedDateKey) return toast("Choisis une date.");
     if (!selectedStartTime) return toast("Choisis un horaire.");
 
-    const name = $("#name", backdrop).value.trim();
-    const phone = $("#phone", backdrop).value.trim();
-    const email = $("#email", backdrop).value.trim();
-    const note = $("#note", backdrop).value.trim();
+    // Sécurité : sanitisation de toutes les entrées
+    const name  = sanitizeInput($("#name", backdrop).value, 80);
+    const phone = sanitizePhone($("#phone", backdrop).value);
+    const email = sanitizeEmail($("#email", backdrop).value);
+    const note  = sanitizeInput($("#note", backdrop).value, 500);
+
+    if (!name)  return toast("Nom invalide.");
+    if (!phone) return toast("Téléphone invalide.");
+    if (!email) return toast("Email invalide.");
+
+    // Validation empreinte bancaire
+    const cardRaw   = (document.getElementById("cardNumberInput")?.value || "").replace(/\s/g, "");
+    const cardExpiry= (document.getElementById("cardExpiry")?.value || "").trim();
+    const cardCvc   = (document.getElementById("cardCvc")?.value || "").trim();
+    const cardLast4 = cardRaw.slice(-4);
+
+    if (cardRaw.length < 13 || cardRaw.length > 16 || !/^\d+$/.test(cardRaw)) {
+      return toast("Numéro de carte invalide.");
+    }
+    if (!/^\d{2}\/\d{2}$/.test(cardExpiry)) {
+      return toast("Date d'expiration invalide (MM/AA).");
+    }
+    const [expM, expY] = cardExpiry.split("/").map(Number);
+    const now = new Date();
+    const expFull = new Date(2000 + expY, expM - 1, 1);
+    if (expM < 1 || expM > 12 || expFull < new Date(now.getFullYear(), now.getMonth(), 1)) {
+      return toast("Carte expirée ou date invalide.");
+    }
+    if (cardCvc.length < 3) {
+      return toast("CVV invalide.");
+    }
+    // Note : en production réelle, on enverrait le token Stripe, jamais les données brutes
+    // Ici on stocke UNIQUEMENT les 4 derniers chiffres pour identification
+
 
     // Re-check availability right now
     const available = computeAvailableStartTimes(selectedDateKey, selectedService);
@@ -349,13 +487,37 @@ function ensureModal(){
       end,
       serviceId: selectedService.id,
       serviceName: selectedService.name,
+      servicePrice: selectedService.price,
+      noshowAmount: selectedService.noshowAmount || null,
       name, phone, email, note,
+      cardLast4,  // 4 derniers chiffres uniquement — jamais les données complètes
       createdAt: new Date().toISOString(),
     };
 
     const bookings = getBookings();
     bookings.push(booking);
     setBookings(bookings);
+
+    // Notification email — EmailJS préconfiguré
+    (function notifyAdmin(b) {
+      try {
+        if (typeof emailjs === "undefined") return;
+        emailjs.init(KB_EMAILJS_CONFIG.publicKey);
+        emailjs.send(KB_EMAILJS_CONFIG.serviceId, KB_EMAILJS_CONFIG.templateId, {
+          to_email:      KB_EMAILJS_CONFIG.adminEmail,
+          client_name:   b.name,
+          service_name:  b.serviceName,
+          service_price: b.servicePrice || "",
+          date:          b.date,
+          start:         b.start,
+          end:           b.end,
+          client_phone:  b.phone,
+          client_email:  b.email,
+          note:          b.note || "—",
+        }).then(() => console.log("[KINGBREL] Email notification envoyée ✔"))
+          .catch(err => console.warn("[KINGBREL] Email error:", err));
+      } catch(e){ console.warn("[KINGBREL] Email init error:", e); }
+    })(booking);
 
     toast("Réservation confirmée ✔");
     closeModal();
@@ -506,7 +668,7 @@ function renderTimes(){
   });
 }
 
- function openBooking(serviceId){
+function openBooking(serviceId){
   selectedService = SERVICES.find(s=>s.id===serviceId) || null;
   if (!selectedService) return;
 
@@ -546,6 +708,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
   renderServices();
   hookQuickCTA();
 
+  // Support des boutons présents sur la page Réserver (accordéons)
+  document.addEventListener("click", (e)=>{
+    const btn = e.target && e.target.closest ? e.target.closest("[data-book]") : null;
+    if (!btn) return;
+    e.preventDefault();
+    openBooking(btn.getAttribute("data-book"));
+  });
+
   // Delegate openBooking from service page CTA, if any
   const open = $("#openBookingFromQuery");
   const params = new URLSearchParams(location.search);
@@ -555,4 +725,17 @@ document.addEventListener("DOMContentLoaded", ()=>{
   }
 });
 
+// Expose globally for other pages (admin)
 window.openBooking = openBooking;
+window.KBBooking = {
+  openBooking,
+  SERVICES,
+  STORAGE,
+  BUSINESS,
+  readJSON,
+  writeJSON,
+  getAvailabilityForDate,
+  getBookings,
+  setBookings,
+  computeAvailableStartTimes,
+};

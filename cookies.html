@@ -4,34 +4,180 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
-  <title>KINGBREL — Cookies</title>
-  <meta name="description" content="KINGBREL — Coiffeur à Livry-Gargan. Réservation en ligne premium." />
+  <title>KINGBREL — Gestion des cookies</title>
+  <meta name="description" content="KINGBREL — Politique de gestion des cookies et du localStorage." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./css/style.css" />
-  <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
+  <style>
+    .legal-body { color: rgba(255,255,255,.78); line-height:1.8; }
+    .legal-body h2 { color: #fff; margin: 28px 0 10px; font-size:1.05rem; }
+    .legal-body p { margin: 0 0 12px; }
+    .legal-body ul { padding-left:18px; margin: 0 0 12px; }
+    .legal-body li { margin-bottom:6px; }
+    .legal-body strong { color: #fff; }
+    .cookie-badge { display:inline-block; padding:3px 10px; border-radius:50px; font-size:.75rem; font-weight:700; }
+    .badge-tech { background: rgba(0,150,255,.2); border:1px solid rgba(0,150,255,.4); color:#6ec6ff; }
+    .badge-none { background: rgba(80,200,80,.15); border:1px solid rgba(80,200,80,.3); color:#80e880; }
+  </style>
 </head>
-<body>
-  
-<main id="main" class="main">
-  <section class="section">
-    <div class="container">
-      <h1 class="pageTitle">Gestion des cookies</h1>
-      <p class="pageLead">
-        V1 ne dépose pas de cookies marketing. Les données de réservation sont stockées via <strong>localStorage</strong> (technique).
-      </p>
-      <div class="panel" style="margin-top:18px">
-        <h3 style="margin:0 0 8px">Stockage local</h3>
-        <p style="margin:0; line-height:1.7; color: rgba(255,255,255,.72)">
-          Pour effacer toutes les données : ouvre <strong>Admin</strong> puis exécute <code style="background: rgba(255,255,255,.06); padding:4px 8px; border-radius:10px">localStorage.clear()</code>.
-        </p>
+<body data-theme="dark">
+
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html">Réserver</a>
+          <a class="btn btn--headerGhost" href="./contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
       </div>
     </div>
-  </section>
-</main>
+  </header>
 
+  <main id="main" class="main">
+    <section class="section">
+      <div class="container">
+        <p class="kicker" style="margin:0 0 10px">
+          <strong style="color: var(--supernova)">Cookies</strong> • Stockage local • Transparence
+        </p>
+        <h1 class="pageTitle">Gestion des cookies</h1>
+        <p class="pageLead">
+          KINGBREL respecte votre vie privée. Cette page explique de manière transparente quels données sont stockées dans votre navigateur et pourquoi.
+        </p>
 
-  <script type="module" src="./js/app.js"></script>
-  
+        <div class="panel" style="margin-top:16px; background: rgba(80,200,80,.06); border:1px solid rgba(80,200,80,.2)">
+          <p style="margin:0; font-weight:700; color:#80e880; line-height:1.7">
+            ✅ Ce site <strong>ne dépose aucun cookie de traçage, publicitaire ou analytique</strong>.<br>
+            Aucune donnée n'est partagée avec des régies publicitaires ou des tiers à des fins de ciblage.
+          </p>
+        </div>
+
+        <div class="panel legal-body" style="margin-top:16px">
+
+          <h2>1. Qu'est-ce qu'un cookie ?</h2>
+          <p>
+            Un cookie est un petit fichier texte stocké sur votre appareil par un site web. Il peut servir à mémoriser des préférences, à vous identifier ou à vous tracer à des fins publicitaires.
+            KINGBREL n'utilise <strong>aucun cookie de session ou persistant</strong> sur ses serveurs.
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>2. Ce que nous stockons : localStorage</h2>
+          <p>
+            Ce site utilise uniquement le <strong>localStorage</strong> de votre navigateur — un espace de stockage local qui ne transite jamais par des serveurs externes (sauf cas indiqués ci-dessous).
+          </p>
+
+          <table class="table" style="margin-top:12px">
+            <thead>
+              <tr>
+                <th>Clé de stockage</th>
+                <th>Contenu</th>
+                <th>Type</th>
+                <th>Durée</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>kb_bookings</code></td>
+                <td>Liste des réservations (nom, tel, email, date, heure, prestation, 4 derniers chiffres carte)</td>
+                <td><span class="cookie-badge badge-tech">Technique</span></td>
+                <td>Jusqu'à suppression manuelle</td>
+              </tr>
+              <tr>
+                <td><code>kb_availability</code></td>
+                <td>Disponibilités définies par l'administrateur</td>
+                <td><span class="cookie-badge badge-tech">Technique</span></td>
+                <td>Jusqu'à suppression manuelle</td>
+              </tr>
+              <tr>
+                <td><code>kb_email_config</code></td>
+                <td>Configuration EmailJS de l'admin (clés API)</td>
+                <td><span class="cookie-badge badge-tech">Technique</span></td>
+                <td>Jusqu'à suppression manuelle</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="hr"></div>
+
+          <h2>3. Services tiers</h2>
+          <p>Ce site utilise les services tiers suivants, susceptibles de traiter des données :</p>
+          <ul>
+            <li>
+              <strong>EmailJS</strong> (emailjs.com) — service d'envoi d'emails. Lors d'une réservation, les informations de contact sont transmises à EmailJS pour notifier l'administrateur. EmailJS est soumis à sa propre politique de confidentialité.
+            </li>
+            <li>
+              <strong>Google Maps</strong> (page Contact) — la carte intégrée peut déposer des cookies tiers de Google. Nous vous recommandons de consulter la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--supernova)">politique de confidentialité de Google</a>.
+            </li>
+            <li>
+              <strong>Google Fonts</strong> — polices de caractères chargées depuis Google. Peut traiter votre adresse IP.
+            </li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <h2>4. Comment supprimer vos données locales</h2>
+          <p>Vous pouvez supprimer toutes les données stockées localement à tout moment :</p>
+          <ul>
+            <li><strong>Via votre navigateur</strong> : Paramètres → Confidentialité → Effacer les données de navigation → Données du site</li>
+            <li><strong>Via la console</strong> (pour les administrateurs) : <code style="background:rgba(255,255,255,.06); padding:3px 8px; border-radius:8px">localStorage.clear()</code></li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <h2>5. Contact</h2>
+          <p>
+            Pour toute question relative aux cookies ou à la vie privée :
+            <a href="mailto:Kingbrel.paris@gmail.com" style="color:var(--supernova)">Kingbrel.paris@gmail.com</a>
+          </p>
+          <p>
+            Consultez également notre <a href="./rgpd.html" style="color:var(--supernova)">politique de confidentialité complète (RGPD)</a>.
+          </p>
+
+          <p style="color: rgba(255,255,255,.4); font-size:.82rem; margin-top:20px">Dernière mise à jour : Février 2026</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+        <p style="margin:8px 0 0; color: rgba(255,255,255,.45); font-size:.75rem; line-height:1.6">
+          © <span id="kbYear"></span> KINGBREL — Tous droits réservés
+        </p>
+      </div>
+      <div class="siteFooter__col">
+        <div class="siteFooter__title">Nous trouver</div>
+        <div class="siteFooter__text">4 rue Pachot Lainé, Livry Gargan, 93046</div>
+      </div>
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./mentions-legales.html">Mentions légales</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./rgpd.html">RGPD &amp; Confidentialité</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./cookies.html">Cookies</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById("kbYear")&&(document.getElementById("kbYear").textContent=new Date().getFullYear())</script>
+
+  <script src="./js/app.js" defer></script>
 </body>
 </html>

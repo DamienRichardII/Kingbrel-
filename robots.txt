@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin.html
+Disallow: /planning.html
+
+Sitemap: https://www.kingbrel.com/sitemap.xml

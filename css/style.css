@@ -115,7 +115,7 @@ img{max-width:100%; display:block}
 }
 .heroMedia{
   position:absolute; inset:0;
-  background-image: url("../assets/hero-home.png");
+  background-image: url("../assets/hero-home.jpg");
 background-size:cover;
   background-position:center;
   filter: brightness(1.14) saturate(1.06) contrast(1.03);
@@ -388,47 +388,62 @@ background-size:cover;
 
 .calendar{
   border-radius: 18px;
-  border:1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.04);
+  border:2px solid var(--supernova);
+  background: var(--supernova);
   overflow:hidden;
 }
 .calTop{
   display:flex; justify-content:space-between; align-items:center; gap:10px;
   padding:12px;
-  border-bottom:1px solid rgba(255,255,255,.10);
+  background: var(--supernova);
+  border-bottom:1px solid rgba(0,0,0,.12);
 }
+.calTop .btn{
+  background: rgba(0,0,0,.12);
+  border-color: rgba(0,0,0,.2);
+  color: #000;
+  font-weight:800;
+}
+.calTop .btn:hover{ background: rgba(0,0,0,.22); }
 .calMonth{
   font-weight:800;
+  color: #000;
+  font-size:1rem;
 }
 .calGrid{
   display:grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  padding: 12px;
+  gap: 4px;
+  padding: 10px;
+  background: var(--supernova);
 }
 .dow{
   font-size:11px;
-  color: rgba(255,255,255,.62);
+  color: rgba(0,0,0,.65);
   text-transform:uppercase;
   letter-spacing:.1em;
+  text-align:center;
+  font-weight:700;
 }
 .day{
-  border-radius: 12px;
-  border:1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.03);
-  padding:10px 8px;
+  border-radius: 10px;
+  border:1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.55);
+  padding:8px 4px;
   text-align:center;
   cursor:pointer;
-  transition: transform .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease);
+  transition: transform .15s, background .15s;
   user-select:none;
+  color: #000;
 }
-.day:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
+.day:hover{transform: translateY(-1px); background: rgba(255,255,255,.85); }
 .day[aria-disabled="true"]{opacity:.35; cursor:not-allowed}
 .day[aria-selected="true"]{
-  border-color: rgba(255,197,0,.45);
-  background: rgba(255,197,0,.16);
+  background: #000;
+  border-color: #000;
+  color: var(--supernova);
 }
-.day .num{font-weight:800}
+.day .num{font-weight:800; color:inherit;}
 .times{
   margin-top:12px;
   display:grid;
@@ -438,15 +453,18 @@ background-size:cover;
 .timeBtn{
   padding:10px 10px;
   border-radius: 14px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.04);
+  border:2px solid var(--supernova);
+  background: var(--supernova);
+  color: #000;
+  font-weight:800;
   cursor:pointer;
-  transition: transform .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease);
+  transition: transform .15s, background .15s, border-color .15s;
 }
-.timeBtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.07)}
+.timeBtn:hover{transform: translateY(-1px); background: #e6b200; border-color:#e6b200;}
 .timeBtn[aria-selected="true"]{
-  border-color: rgba(255,197,0,.45);
-  background: rgba(255,197,0,.16);
+  background: #000;
+  border-color: #000;
+  color: var(--supernova);
 }
 .timeBtn[aria-disabled="true"]{opacity:.35; cursor:not-allowed}
 
@@ -517,22 +535,19 @@ background-size:cover;
 }
 .heroFull__bg{
   position:absolute; inset:0;
-  background-image: url("../assets/hero-home.png");
-  background-size: cover;
+  background-image: url("../assets/hero-home.jpg");
+background-size: cover;
   background-position: center;
-  transform: scale(1.02);
-
-  /* IMPORTANT : ne pas assombrir la photo */
-  filter: none;
+  transform: scale(1.03);
+  /* Lighter background (photo was reading too dark) */
+  /* Push closer to the original (much brighter) photo */
+  filter: brightness(1.34) saturate(1.08) contrast(1.05);
 }
-
 .heroFull__overlay{
   position:absolute; inset:0;
-
-  /* Overlay ultra léger juste pour la lisibilité, sans effet "photo sombre" */
   background:
-    radial-gradient(900px 520px at 50% 18%, rgba(0,0,0,.00), rgba(0,0,0,.10) 70%),
-    linear-gradient(to bottom, rgba(0,0,0,.02), rgba(0,0,0,.12));
+    radial-gradient(900px 520px at 50% 18%, rgba(0,0,0,.03), rgba(0,0,0,.34) 70%),
+    linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.32));
 }
 .heroFull__content{
   position:relative;
@@ -945,135 +960,321 @@ details[open] .accordion__chev{transform: rotate(45deg);}
   .siteFooter__col--right{align-items:center}
   .siteHeader__logo{height: 34px}
 }
-/* =========================
-   Calendar — Supernova (modal)
-========================= */
-.modal .calendar{
-  background: var(--supernova);
-  border-color: rgba(0,0,0,.18);
+
+/* =====================================================
+   MOBILE OPTIMIZATION — KINGBREL V7
+   ===================================================== */
+
+/* Modal responsive */
+@media (max-width: 768px) {
+  .modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    overflow-y: auto;
+  }
+  .modalBackdrop {
+    align-items: flex-end !important;
+  }
+  .modalBody {
+    flex-direction: column !important;
+  }
+  .modalPane {
+    width: 100% !important;
+    min-width: unset !important;
+  }
+  .modalTop {
+    position: sticky;
+    top: 0;
+    background: var(--surface, #111);
+    z-index: 10;
+    padding-bottom: 12px;
+  }
+
+  /* Calendar on mobile */
+  .calGrid { gap: 3px; padding: 6px; }
+  .day { padding: 6px 2px; font-size: .82rem; border-radius: 8px; }
+  .times { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .timeBtn { padding: 8px 4px; font-size: .82rem; }
+
+  /* Admin tabs on mobile */
+  .admin-tabs { gap: 6px; }
+  .admin-tab { padding: 8px 12px; font-size: .82rem; }
+
+  /* Booking card mobile */
+  .booking-card { grid-template-columns: 1fr !important; gap: 8px; }
+
+  /* Table overflow */
+  .table { font-size: .8rem; }
+  .table td, .table th { padding: 8px 6px; }
+
+  /* Week strip planning */
+  .week-strip { grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .week-day { padding: 6px 2px; border-radius: 10px; }
+  .week-day .wd-num { font-size: .95rem; }
+  .week-day .wd-name { font-size: .58rem; }
+
+  /* Stats bar */
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .grid3 { grid-template-columns: 1fr 1fr !important; }
+
+  /* Header on mobile */
+  .siteHeader__inner { gap: 8px; }
+
+  /* Planning detail card */
+  .detail-card { padding: 20px; }
+
+  /* Admin nav bar */
+  .admin-nav-bar { flex-wrap: wrap; gap: 6px !important; }
+  .admin-nav-bar a { font-size: .8rem; padding: 8px 10px; }
+
+  /* Footer on mobile */
+  .siteFooter__inner { flex-direction: column; gap: 20px; text-align: center; }
+  .siteFooter__col--right { align-items: center; display: flex; flex-direction: column; }
 }
 
-.modal .calTop{
-  background: rgba(255,255,255,.25);
-  border-bottom-color: rgba(0,0,0,.16);
+@media (max-width: 480px) {
+  .lightTitle { font-size: 1.8rem !important; }
+  .pageTitle { font-size: 1.6rem !important; }
+  .container { padding: 0 14px; }
+  .panel { padding: 14px; border-radius: 14px; }
+  .accordion__summary { gap: 10px; padding: 12px; }
+  .accordion__media { width: 52px !important; height: 52px !important; border-radius: 10px !important; }
+  .serviceRow { flex-wrap: wrap; gap: 6px; }
+  .serviceRow__meta { flex: 1; }
 }
 
-.modal .calMonth{
-  color: #111;
-}
-
-.modal .calGrid{
-  background: var(--supernova);
-}
-
-.modal .dow{
-  color: rgba(0,0,0,.78);
-}
-
-.modal .day{
-  border-color: rgba(0,0,0,.16);
-  background: rgba(255,255,255,.28);
-  color: #111;
-}
-
-.modal .day:hover{
-  background: rgba(255,255,255,.40);
-}
-
-.modal .day[aria-selected="true"]{
-  background: #111;
-  border-color: #111;
-  color: var(--supernova);
-}
-
-.modal .day[aria-disabled="true"]{
-  opacity: .30;
-}
-
-/* Flèches mois (boutons) */
-.modal .calTop .btn{
-  background: rgba(255,255,255,.30);
-  border-color: rgba(0,0,0,.16);
-  color: #111;
-}
-.modal .calTop .btn:hover{
-  background: rgba(255,255,255,.45);
-  border-color: rgba(0,0,0,.22);
-}
-/* =========================
-   Timeslots — Supernova (modal)
-========================= */
-.modal .times .timeBtn{
-  background: rgba(255,255,255,.28);
-  border-color: rgba(0,0,0,.16);
-  color: #111;
-}
-
-.modal .times .timeBtn:hover{
-  background: rgba(255,255,255,.40);
-  border-color: rgba(0,0,0,.22);
-}
-
-/* Créneau sélectionné */
-.modal .times .timeBtn[aria-selected="true"]{
-  background: #111;
-  border-color: #111;
-  color: var(--supernova);
-}
-
-/* Créneau désactivé */
-.modal .times .timeBtn[aria-disabled="true"]{
-  opacity: .30;
-  cursor: not-allowed;
-}
-
-/* ===== CONTACT: Section message ===== */
-.contactMessage{
-  padding: 18px;
-}
-.contactMessage__head{
-  margin-bottom: 12px;
-}
-.contactMessage__title{
-  margin: 0 0 6px;
-  font-size: 20px;
-  letter-spacing: .2px;
-}
-.contactMessage__lead{
-  margin: 0;
-  color: rgba(255,255,255,.72);
-  line-height: 1.6;
-}
-.contactMessage__mail{
+/* Admin nav bar active state */
+.admin-tab.active {
+  background: var(--supernova) !important;
+  color: #000 !important;
+  border-color: var(--supernova) !important;
   font-weight: 800;
-  color: var(--supernova);
-  text-decoration: none;
 }
-.contactMessage__mail:hover{ text-decoration: underline; }
 
-.contactForm__grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
+/* ============================================================
+   KINGBREL V7 — Calendar yellow theme fix + Mobile optimizations
+   ============================================================ */
+
+/* Calendar — yellow bg, black text everywhere */
+.calendar { background: var(--supernova) !important; border: 2px solid var(--supernova) !important; }
+.calTop { background: var(--supernova) !important; }
+.calMonth { color: #000 !important; font-weight: 800 !important; }
+.calGrid { background: var(--supernova) !important; }
+.dow { color: #000 !important; font-weight: 700 !important; opacity: .7; }
+.day { color: #000 !important; background: rgba(255,255,255,.6) !important; }
+.day:hover { background: rgba(255,255,255,.9) !important; color: #000 !important; }
+.day[aria-selected="true"] { background: #000 !important; color: var(--supernova) !important; }
+.day[aria-disabled="true"] { opacity: .3 !important; }
+.day .num { color: inherit !important; }
+.calTop .btn { color: #000 !important; background: rgba(0,0,0,.12) !important; border-color: rgba(0,0,0,.2) !important; }
+
+/* Time buttons — yellow bg, black text */
+.timeBtn { background: var(--supernova) !important; border-color: var(--supernova) !important; color: #000 !important; font-weight: 800 !important; }
+.timeBtn:hover { background: #e6b200 !important; }
+.timeBtn[aria-selected="true"] { background: #000 !important; color: var(--supernova) !important; border-color: #000 !important; }
+
+/* Modal — full screen on mobile, scrollable */
+@media (max-width: 767px) {
+  .modalBackdrop { padding: 0 !important; align-items: flex-end !important; }
+  .modal {
+    width: 100% !important;
+    max-height: 96dvh !important;
+    border-radius: 20px 20px 0 0 !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .modalBody {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: unset !important;
+    overflow-y: auto !important;
+  }
+  .modalPane { width: 100% !important; padding: 14px !important; }
+  .modalPane + .modalPane { border-left: none !important; border-top: 1px solid rgba(255,255,255,.1) !important; }
+  .modalTop { position: sticky !important; top: 0 !important; background: #111 !important; z-index: 20 !important; }
+  .calGrid { gap: 2px !important; padding: 6px !important; }
+  .day { padding: 7px 2px !important; font-size: .8rem !important; border-radius: 8px !important; }
+  .times { grid-template-columns: repeat(4, 1fr) !important; gap: 5px !important; }
+  .timeBtn { padding: 9px 4px !important; font-size: .8rem !important; }
+
+  /* Card imprint grid on mobile */
+  #cardExpiry, #cardCvc { font-size: .9rem !important; }
 }
-.contactForm__full{ grid-column: 1 / -1; }
 
-.contactForm__actions{
-  display:flex;
-  gap: 10px;
+/* Global mobile improvements */
+@media (max-width: 600px) {
+  .container { padding: 0 14px !important; }
+  .siteHeader__inner { padding: 0 14px !important; }
+  .pageTitle { font-size: 1.6rem !important; }
+  .pageLead { font-size: .92rem !important; }
+
+  /* Footer stack */
+  .siteFooter__inner { flex-direction: column !important; gap: 20px !important; padding: 20px 14px !important; }
+  .siteFooter__col--right { align-items: flex-start !important; }
+
+  /* Admin booking cards */
+  .booking-card { grid-template-columns: 1fr !important; }
+  .bc-service { align-self: flex-start !important; }
+
+  /* Admin panel tables scroll */
+  .table-wrap { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+  .table { min-width: 600px !important; }
+
+  /* Planning week strip */
+  .week-strip { gap: 4px !important; }
+  .week-day { padding: 8px 4px !important; border-radius: 10px !important; }
+  .week-day .wd-num { font-size: 1rem !important; }
+
+  /* Stats bar */
+  .stats-bar { grid-template-columns: 1fr 1fr !important; }
+}
+
+/* Touch targets — minimum 44px for mobile */
+.btn, .timeBtn, .day, .admin-tab, .week-day, button {
+  min-height: 40px;
+}
+.day { min-height: 36px !important; }
+
+/* Admin nav bar between admin pages */
+.admin-page-nav {
+  display: flex;
+  gap: 8px;
   flex-wrap: wrap;
-  align-items:center;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.admin-page-nav a {
+  padding: 10px 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.7);
+  font-weight: 700;
+  font-size: .85rem;
+  text-decoration: none;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.admin-page-nav a:hover { background: rgba(255,255,255,.08); color: #fff; }
+.admin-page-nav a.active { background: var(--supernova); color: #000; border-color: var(--supernova); }
+@media (max-width: 600px) {
+  .admin-page-nav { padding: 8px; gap: 6px; }
+  .admin-page-nav a { padding: 8px 12px; font-size: .78rem; }
 }
 
-.contactMessage__note{
-  margin: 10px 0 0;
-  color: rgba(255,255,255,.62);
-  font-size: 13px;
-  line-height: 1.55;
+/* ============================================================
+   KINGBREL V9 — Bug fixes
+   ============================================================ */
+
+/* 1. Header reste visible par-dessus la modal */
+.siteHeader { z-index: 200 !important; }
+
+/* 2. Modal — tous les inputs/labels/textareas en blanc
+      (override du mode light sur body[data-theme=light]) */
+.modalBackdrop .input,
+.modalBackdrop .textarea,
+.modalBackdrop select.input {
+  color: #fff !important;
+  background: rgba(255,255,255,.08) !important;
+  border-color: rgba(255,255,255,.18) !important;
+}
+.modalBackdrop .input::placeholder,
+.modalBackdrop .textarea::placeholder {
+  color: rgba(255,255,255,.38) !important;
+}
+.modalBackdrop .label {
+  color: rgba(255,255,255,.75) !important;
+}
+/* Inputs carte bancaire */
+.modalBackdrop #cardNumberInput,
+.modalBackdrop #cardExpiry,
+.modalBackdrop #cardCvc {
+  color: #fff !important;
+}
+.modalBackdrop #cardNumberInput::placeholder,
+.modalBackdrop #cardExpiry::placeholder,
+.modalBackdrop #cardCvc::placeholder {
+  color: rgba(255,255,255,.35) !important;
 }
 
-@media (max-width: 780px){
-  .contactForm__grid{ grid-template-columns: 1fr; }
-  .contactForm__full{ grid-column: auto; }
+/* 3. Boutons "Réinitialiser" et "Valider la réservation" — texte blanc */
+.modalBackdrop .btn {
+  color: #fff !important;
 }
+.modalBackdrop .btn--primary {
+  color: #000 !important; /* Valider garde texte noir sur fond jaune */
+}
+
+/* 4. Texte général dans la modal en blanc */
+.modalBackdrop p,
+.modalBackdrop div,
+.modalBackdrop span {
+  color: inherit;
+}
+.modal { color: #fff; }
+.modalPane { color: #fff; }
+
+/* 5. Assure que le backdrop passe SOUS le header mais au-dessus du reste */
+.modalBackdrop { z-index: 150 !important; }
+
+/* ============================================================
+   V8.1 FIXES — Modal form text white, header z-index, buttons
+   ============================================================ */
+
+/* Header always above modal backdrop */
+.siteHeader { z-index: 9999 !important; }
+
+/* Modal inputs — force white text even on light-theme pages */
+.modal .input,
+.modal .textarea,
+.modal input,
+.modal textarea,
+.modal select {
+  color: #fff !important;
+  background: rgba(255,255,255,.08) !important;
+  border-color: rgba(255,255,255,.16) !important;
+}
+.modal .input::placeholder,
+.modal .textarea::placeholder,
+.modal input::placeholder,
+.modal textarea::placeholder {
+  color: rgba(255,255,255,.38) !important;
+}
+.modal .input:focus,
+.modal .textarea:focus,
+.modal input:focus,
+.modal textarea:focus {
+  border-color: rgba(255,197,0,.5) !important;
+  box-shadow: 0 0 0 3px rgba(255,197,0,.15) !important;
+}
+
+/* Modal labels — force white */
+.modal .label,
+.modal .field > div:first-child {
+  color: rgba(255,255,255,.85) !important;
+}
+
+/* Card inputs specifically */
+.modal #cardNumberInput,
+.modal #cardExpiry,
+.modal #cardCvc {
+  color: #fff !important;
+}
+.modal #cardNumberInput::placeholder,
+.modal #cardExpiry::placeholder,
+.modal #cardCvc::placeholder {
+  color: rgba(255,255,255,.35) !important;
+}
+
+/* CTA buttons in modal — white text */
+.modal .btn { color: #fff !important; }
+.modal .btn--primary { color: #000 !important; } /* primary stays black on yellow */
+
+/* Select dropdown in modal */
+.modal select option { background: #1a1a1a; color: #fff; }

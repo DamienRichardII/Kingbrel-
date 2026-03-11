@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <title>KINGBREL — RGPD & Politique de confidentialité</title>
+  <meta name="description" content="KINGBREL — Politique de confidentialité et protection des données personnelles (RGPD)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./css/style.css" />
+  <style>
+    .legal-body { color: rgba(255,255,255,.78); line-height:1.8; }
+    .legal-body h2 { color: #fff; margin: 28px 0 10px; font-size:1.05rem; }
+    .legal-body p { margin: 0 0 12px; }
+    .legal-body ul { padding-left:18px; margin: 0 0 12px; }
+    .legal-body li { margin-bottom:6px; }
+    .legal-body strong { color: #fff; }
+    .legal-body a { color: var(--supernova); }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html">Réserver</a>
+          <a class="btn btn--headerGhost" href="./contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="main">
+    <section class="section">
+      <div class="container">
+        <p class="kicker" style="margin:0 0 10px">
+          <strong style="color: var(--supernova)">RGPD</strong> • Confidentialité • Données personnelles
+        </p>
+        <h1 class="pageTitle">Politique de confidentialité</h1>
+        <p class="pageLead">
+          Conformément au Règlement Général sur la Protection des Données (RGPD — UE 2016/679), vous trouverez ici l'ensemble des informations relatives à la collecte et au traitement de vos données personnelles par KINGBREL.
+        </p>
+
+        <div class="panel legal-body" style="margin-top:20px">
+
+          <h2>1. Responsable du traitement</h2>
+          <p>
+            <strong>KINGBREL</strong><br>
+            4 rue Pachot Lainé, 93046 Livry-Gargan<br>
+            Email : <a href="mailto:Kingbrel.paris@gmail.com">Kingbrel.paris@gmail.com</a>
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>2. Données collectées</h2>
+          <p>Dans le cadre de la réservation en ligne, nous collectons les données suivantes :</p>
+          <ul>
+            <li><strong>Nom et prénom</strong> — identification du client</li>
+            <li><strong>Numéro de téléphone</strong> — contact en cas d'urgence ou de modification</li>
+            <li><strong>Adresse email</strong> — confirmation de réservation</li>
+            <li><strong>Commentaire</strong> — précisions sur la prestation souhaitée (facultatif)</li>
+            <li><strong>4 derniers chiffres de la carte bancaire</strong> — empreinte de garantie en cas de no-show (aucune donnée bancaire complète n'est stockée)</li>
+            <li><strong>Date et heure de réservation</strong>, prestation choisie</li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <h2>3. Finalités du traitement</h2>
+          <p>Vos données sont traitées pour les finalités suivantes :</p>
+          <ul>
+            <li>Gestion et confirmation des réservations</li>
+            <li>Prévention des no-shows et facturation en cas d'absence non signalée</li>
+            <li>Communication entre le prestataire et le client</li>
+            <li>Envoi de notifications par email (nouvelles réservations)</li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <h2>4. Base légale du traitement</h2>
+          <p>Le traitement de vos données repose sur :</p>
+          <ul>
+            <li><strong>L'exécution d'un contrat</strong> : la réservation constitue un accord entre le client et KINGBREL</li>
+            <li><strong>L'intérêt légitime</strong> : prévention des no-shows et gestion de l'activité</li>
+            <li><strong>Le consentement</strong> : pour toute communication marketing future (non pratiquée actuellement)</li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <h2>5. Durée de conservation</h2>
+          <p>
+            Les données de réservation sont conservées <strong>dans le navigateur local</strong> (localStorage) du professionnel.
+            Elles ne sont pas transmises à des serveurs tiers, sauf pour l'envoi de notifications email via EmailJS.
+          </p>
+          <p>
+            En l'absence de demande de suppression, les données sont conservées pendant une durée maximale de <strong>2 ans</strong> à compter de la réservation.
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>6. Sécurité des données</h2>
+          <p>Nous mettons en œuvre les mesures suivantes pour protéger vos données :</p>
+          <ul>
+            <li>Aucune donnée bancaire complète n'est stockée (seuls les 4 derniers chiffres de la carte)</li>
+            <li>Sanitisation de toutes les entrées utilisateur (protection XSS)</li>
+            <li>Chiffrement SSL/TLS pour toutes les communications</li>
+            <li>Accès à l'interface d'administration restreint</li>
+            <li>Aucun cookie de tracking tiers déposé</li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <h2>7. Partage des données</h2>
+          <p>
+            Vos données ne sont <strong>jamais vendues</strong> ni cédées à des tiers à des fins commerciales.
+            Elles peuvent être partagées uniquement avec :
+          </p>
+          <ul>
+            <li><strong>EmailJS</strong> (emailjs.com) — pour l'envoi de notifications de réservation à l'administrateur. EmailJS est soumis aux lois de protection des données en vigueur.</li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <h2>8. Vos droits (RGPD)</h2>
+          <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+          <ul>
+            <li><strong>Droit d'accès</strong> : obtenir une copie de vos données</li>
+            <li><strong>Droit de rectification</strong> : corriger des informations inexactes</li>
+            <li><strong>Droit à l'effacement</strong> : demander la suppression de vos données ("droit à l'oubli")</li>
+            <li><strong>Droit d'opposition</strong> : vous opposer au traitement de vos données</li>
+            <li><strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré</li>
+          </ul>
+          <p>
+            Pour exercer ces droits, contactez-nous par email :
+            <a href="mailto:Kingbrel.paris@gmail.com">Kingbrel.paris@gmail.com</a>
+          </p>
+          <p>
+            Vous avez également le droit d'introduire une réclamation auprès de la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) :
+            <a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a>
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>9. Cookies</h2>
+          <p>
+            Ce site n'utilise <strong>aucun cookie de traçage ou publicitaire</strong>.
+            Le seul stockage utilisé est le <strong>localStorage</strong> du navigateur, nécessaire au fonctionnement technique de la réservation.
+            Consultez notre <a href="./cookies.html">politique de gestion des cookies</a> pour plus de détails.
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>10. Modifications</h2>
+          <p>
+            Cette politique peut être mise à jour. La date de dernière mise à jour est indiquée ci-dessous.
+            Nous vous encourageons à la consulter régulièrement.
+          </p>
+          <p style="color: rgba(255,255,255,.4); font-size:.82rem">Dernière mise à jour : Février 2026</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+        <p style="margin:8px 0 0; color: rgba(255,255,255,.45); font-size:.75rem; line-height:1.6">
+          © <span id="kbYear"></span> KINGBREL — Tous droits réservés
+        </p>
+      </div>
+      <div class="siteFooter__col">
+        <div class="siteFooter__title">Nous trouver</div>
+        <div class="siteFooter__text">4 rue Pachot Lainé, Livry Gargan, 93046</div>
+      </div>
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./mentions-legales.html">Mentions légales</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./rgpd.html">RGPD &amp; Confidentialité</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./cookies.html">Cookies</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById("kbYear")&&(document.getElementById("kbYear").textContent=new Date().getFullYear())</script>
+
+  <script src="./js/app.js" defer></script>
+</body>
+</html>

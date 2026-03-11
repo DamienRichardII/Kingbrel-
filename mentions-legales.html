@@ -5,43 +5,161 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <title>KINGBREL — Mentions légales</title>
-  <meta name="description" content="KINGBREL — Coiffeur à Livry-Gargan. Réservation en ligne premium." />
+  <meta name="description" content="KINGBREL — Mentions légales conformes à la loi française." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./css/style.css" />
-  <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
+  <style>
+    .legal-body { color: rgba(255,255,255,.78); line-height:1.8; }
+    .legal-body h2 { color: #fff; margin: 28px 0 10px; font-size:1.05rem; }
+    .legal-body p { margin: 0 0 12px; }
+    .legal-body strong { color: #fff; }
+    .legal-body a { color: var(--supernova); }
+  </style>
 </head>
-<body>
-  
-<main id="main" class="main">
-  <section class="section">
-    <div class="container">
-      <h1 class="pageTitle">Mentions légales</h1>
-      <p class="pageLead">
-        Cette page est un modèle V1. Remplace les informations juridiques (SIRET, éditeur, hébergeur, etc.).
-      </p>
-      <div class="panel" style="margin-top:18px">
-        <h3 style="margin:0 0 8px">Éditeur</h3>
-        <p style="margin:0; line-height:1.7; color: rgba(255,255,255,.72)">
-          KINGBREL — 14 rue Pachot Lainé, Livry Gargan, 93046
-        </p>
-        <div class="hr"></div>
-        <h3 style="margin:0 0 8px">Hébergement</h3>
-        <p style="margin:0; line-height:1.7; color: rgba(255,255,255,.72)">
-          À compléter selon l’hébergeur.
-        </p>
-        <div class="hr"></div>
-        <h3 style="margin:0 0 8px">Données personnelles</h3>
-        <p style="margin:0; line-height:1.7; color: rgba(255,255,255,.72)">
-          Les réservations sont stockées localement (V1). En V2, prévoir une politique de confidentialité et un consentement adapté.
-        </p>
+<body data-theme="dark">
+
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html">Réserver</a>
+          <a class="btn btn--headerGhost" href="./contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
       </div>
     </div>
-  </section>
-</main>
+  </header>
 
+  <main id="main" class="main">
+    <section class="section">
+      <div class="container">
+        <p class="kicker" style="margin:0 0 10px">
+          <strong style="color: var(--supernova)">Légal</strong> • Mentions légales • Obligations légales
+        </p>
+        <h1 class="pageTitle">Mentions légales</h1>
+        <p class="pageLead">
+          Conformément à la loi n°2004-575 du 21 juin 2004 pour la Confiance en l'Économie Numérique (LCEN), voici les mentions légales du site KINGBREL.
+        </p>
 
-  <script type="module" src="./js/app.js"></script>
-  
+        <div class="panel legal-body" style="margin-top:20px">
+
+          <h2>1. Éditeur du site</h2>
+          <p>
+            <strong>Dénomination :</strong> KINGBREL<br>
+            <strong>Adresse :</strong> 4 rue Pachot Lainé, 93046 Livry-Gargan, France<br>
+            <strong>Email :</strong> <a href="mailto:Kingbrel.paris@gmail.com">Kingbrel.paris@gmail.com</a><br>
+            <strong>Activité :</strong> Coiffure / Barbier<br>
+            <strong>SIRET :</strong> À compléter<br>
+            <strong>Responsable de la publication :</strong> KINGBREL
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>2. Hébergement</h2>
+          <p>
+            Ce site est hébergé par :<br>
+            <strong>À compléter selon l'hébergeur choisi</strong> (ex : GitHub Pages, Netlify, Vercel…)<br>
+            Adresse de l'hébergeur : À compléter<br>
+            Contact : À compléter
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>3. Propriété intellectuelle</h2>
+          <p>
+            L'ensemble du contenu de ce site (textes, images, logos, design, code) est protégé par le droit d'auteur et appartient à KINGBREL ou à ses partenaires.
+            Toute reproduction, représentation, modification, publication, adaptation ou distribution, partielle ou totale, est strictement interdite sans autorisation écrite préalable.
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>4. Données personnelles</h2>
+          <p>
+            Le traitement des données personnelles collectées via ce site est détaillé dans notre
+            <a href="./rgpd.html">politique de confidentialité (RGPD)</a>.
+            Conformément à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification et de suppression de vos données.
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>5. Cookies</h2>
+          <p>
+            Ce site n'utilise pas de cookies de traçage. Consultez notre
+            <a href="./cookies.html">politique de gestion des cookies</a> pour plus d'informations.
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>6. Conditions d'utilisation du service de réservation</h2>
+          <p>
+            En effectuant une réservation sur ce site, le client s'engage à :
+          </p>
+          <p>
+            • Fournir des informations exactes et complètes lors de la réservation.<br>
+            • Se présenter à l'heure du rendez-vous ou annuler au moins <strong>24 heures à l'avance</strong>.<br>
+            • En cas de <strong>no-show</strong> (absence sans annulation préalable), accepter le prélèvement de la <strong>moitié du montant de la prestation réservée</strong> via l'empreinte bancaire enregistrée lors de la réservation.
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>7. Responsabilité</h2>
+          <p>
+            KINGBREL s'efforce de maintenir les informations de ce site à jour et exactes. Toutefois, KINGBREL ne peut garantir l'exactitude, la complétude ou l'actualité de ces informations.
+            KINGBREL décline toute responsabilité pour tout dommage résultant de l'utilisation ou de l'impossibilité d'utiliser ce site.
+          </p>
+
+          <div class="hr"></div>
+
+          <h2>8. Droit applicable</h2>
+          <p>
+            Le présent site et ses mentions légales sont soumis au droit français.
+            Tout litige sera de la compétence exclusive des tribunaux français.
+          </p>
+
+          <p style="color: rgba(255,255,255,.4); font-size:.82rem; margin-top:20px">Dernière mise à jour : Février 2026</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+        <p style="margin:8px 0 0; color: rgba(255,255,255,.45); font-size:.75rem; line-height:1.6">
+          © <span id="kbYear"></span> KINGBREL — Tous droits réservés
+        </p>
+      </div>
+      <div class="siteFooter__col">
+        <div class="siteFooter__title">Nous trouver</div>
+        <div class="siteFooter__text">4 rue Pachot Lainé, Livry Gargan, 93046</div>
+      </div>
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./mentions-legales.html">Mentions légales</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./rgpd.html">RGPD &amp; Confidentialité</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./cookies.html">Cookies</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById("kbYear")&&(document.getElementById("kbYear").textContent=new Date().getFullYear())</script>
+
+  <script src="./js/app.js" defer></script>
 </body>
 </html>

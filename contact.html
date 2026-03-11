@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./css/style.css" />
-  <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
 </head>
 
 <body data-theme="dark">
@@ -56,7 +55,7 @@
           <div class="panel">
             <h2 style="margin:0 0 6px">Adresse</h2>
             <p style="margin:0; line-height:1.6; color: rgba(255,255,255,.72)">
-              14 rue Pachot Lainé, Livry Gargan, 93046
+              Nouvelle Adresse A venir... 
             </p>
 
             <div class="hr"></div>
@@ -70,7 +69,7 @@
             <div class="hr"></div>
 
             <p style="margin:0; color: rgba(255,255,255,.72); line-height:1.6">
-              Horaires de réservation : <strong>12h → 19h</strong>
+              Horaires de réservation : <strong>10h → 20h</strong>
             </p>
           </div>
 
@@ -82,7 +81,7 @@
               style="border:0; display:block"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps?q=14%20rue%20Pachot%20Lain%C3%A9%2C%20Livry%20Gargan%2093046&output=embed">
+              src="https://www.google.com/maps?q=4%20rue%20Pachot%20Lain%C3%A9%2C%20Livry%20Gargan%2093046&output=embed">
             </iframe>
           </div>
         </div>
@@ -149,18 +148,30 @@
   </main>
 
   <!-- Footer (identique à Réserver) -->
-  <footer class="siteFooter">
+    <footer class="siteFooter">
     <div class="container siteFooter__inner">
       <div class="siteFooter__col">
         <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+        <p style="margin:8px 0 0; color: rgba(255,255,255,.45); font-size:.75rem; line-height:1.6">
+          © <span id="kbYear"></span> KINGBREL — Tous droits réservés
+        </p>
       </div>
-
+      <div class="siteFooter__col">
+        <div class="siteFooter__title">Nous trouver</div>
+      </div>
       <div class="siteFooter__col siteFooter__col--right">
         <div class="siteFooter__title">Nous contacter</div>
         <a class="btn btn--footer" href="./contact.html">Page contact</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./mentions-legales.html">Mentions légales</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./rgpd.html">RGPD &amp; Confidentialité</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./cookies.html">Cookies</a>
       </div>
     </div>
   </footer>
+  <script>document.getElementById("kbYear")&&(document.getElementById("kbYear").textContent=new Date().getFullYear())</script>
 
   <!-- JS: mini formulaire -> mailto pré-rempli -->
   <script type="module" src="./js/app.js"></script>

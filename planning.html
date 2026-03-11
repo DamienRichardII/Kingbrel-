@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <title>KINGBREL — Planning</title>
+  <meta name="description" content="KINGBREL — Planning des réservations en temps réel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./css/style.css" />
+  <style>
+    /* Planning styles */
+    .planning-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .planning-nav .date-label {
+      font-weight: 800;
+      font-size: 1.1rem;
+      flex: 1;
+      text-align: center;
+    }
+    .week-strip {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .week-day {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .week-day:hover { background: rgba(255,255,255,.1); }
+    .week-day.active {
+      background: var(--supernova);
+      border-color: var(--supernova);
+      color: #000;
+    }
+    .week-day .wd-name { font-size: .72rem; font-weight: 600; opacity: .7; }
+    .week-day.active .wd-name { opacity: .6; }
+    .week-day .wd-num { font-size: 1.2rem; font-weight: 800; line-height: 1.2; }
+    .week-day .wd-dot {
+      width: 5px; height: 5px;
+      background: var(--supernova);
+      border-radius: 50%;
+      margin: 4px auto 0;
+    }
+    .week-day.active .wd-dot { background: #000; }
+
+    /* Timeline */
+    .timeline {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 0;
+      position: relative;
+    }
+    .timeline-hours {
+      display: flex;
+      flex-direction: column;
+    }
+    .timeline-hour-label {
+      height: 72px;
+      display: flex;
+      align-items: flex-start;
+      padding-top: 4px;
+      color: rgba(255,255,255,.45);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .timeline-slots {
+      position: relative;
+      border-left: 1px solid rgba(255,255,255,.08);
+    }
+    .timeline-row {
+      height: 72px;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      position: relative;
+    }
+    .timeline-row:nth-child(even) { background: rgba(255,255,255,.015); }
+    /* Current time indicator */
+    .time-indicator {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: var(--supernova);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .time-indicator::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: -4px;
+      width: 10px;
+      height: 10px;
+      background: var(--supernova);
+      border-radius: 50%;
+    }
+    /* Booking block */
+    .booking-block {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      background: linear-gradient(135deg, rgba(244,200,0,.25), rgba(244,200,0,.12));
+      border: 1px solid rgba(244,200,0,.5);
+      border-left: 3px solid var(--supernova);
+      border-radius: 10px;
+      padding: 8px 10px;
+      overflow: hidden;
+      z-index: 5;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .booking-block:hover {
+      background: linear-gradient(135deg, rgba(244,200,0,.4), rgba(244,200,0,.2));
+      transform: scale(1.01);
+    }
+    .booking-block .bb-time { font-size: .72rem; font-weight: 700; color: var(--supernova); }
+    .booking-block .bb-name { font-size: .88rem; font-weight: 800; margin: 2px 0; }
+    .booking-block .bb-service { font-size: .75rem; color: rgba(255,255,255,.65); }
+    /* Empty day */
+    .empty-day {
+      text-align: center;
+      padding: 40px 20px;
+      color: rgba(255,255,255,.4);
+      font-size: .95rem;
+    }
+    /* Detail modal */
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.75);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+    .detail-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .detail-card {
+      background: #111;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 400px;
+      width: 90%;
+      position: relative;
+    }
+    .detail-card h3 { margin: 0 0 16px; }
+    .detail-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .detail-label { color: rgba(255,255,255,.5); font-size: .8rem; min-width: 80px; }
+    .detail-val { font-weight: 600; font-size: .88rem; }
+    .close-detail {
+      position: absolute;
+      top: 14px; right: 14px;
+    }
+    /* Stats bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .stat-chip {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat-chip .sv { font-size: 1.5rem; font-weight: 800; color: var(--supernova); }
+    .stat-chip .sl { font-size: .75rem; color: rgba(255,255,255,.55); margin-top: 2px; }
+
+    @media (max-width: 600px) {
+      .week-day .wd-name { font-size: .62rem; }
+      .week-day .wd-num { font-size: 1rem; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html">Réserver</a>
+          <a class="btn btn--headerGhost" href="./contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+<main id="main" class="main">
+  <section class="section">
+    <div class="container">
+      <p class="kicker" style="margin:0 0 10px">
+        <strong style="color: var(--supernova)">Planning</strong> • Temps réel • Heure par heure
+      </p>
+      <h1 class="pageTitle">Planning du coiffeur</h1>
+
+      <!-- Barre de navigation admin -->
+      <p class="pageLead">
+        Visualise l'agenda complet, jour par jour, heure par heure. Les réservations s'affichent en temps réel.
+      </p>
+
+      <!-- Navigation admin inter-pages -->
+      <nav class="admin-page-nav" style="margin-top:16px">
+        <span style="font-size:.72rem; font-weight:700; color:rgba(255,255,255,.35); align-self:center; white-space:nowrap">ESPACE ADMIN</span>
+        <a href="./admin.html#reservations">📋 Réservations</a>
+        <a href="./admin.html#disponibilites">📅 Disponibilités</a>
+        <a href="./admin.html#noshow">⚠️ No-Shows</a>
+        <a href="./admin.html#email">✉️ Email</a>
+        <a href="./planning.html" class="active">📆 Planning</a>
+      </nav>
+      <div id="planningStats" class="stats-bar" style="margin-top:16px"></div>
+
+      <!-- Week navigation -->
+      <div class="panel" style="margin-top:8px">
+        <div class="planning-nav">
+          <button class="btn" id="prevWeek">← Semaine préc.</button>
+          <span class="date-label" id="weekLabel"></span>
+          <button class="btn" id="nextWeek">Semaine suiv. →</button>
+        </div>
+        <button class="btn" id="todayBtn" style="margin-bottom:12px">Aujourd'hui</button>
+        <div class="week-strip" id="weekStrip"></div>
+      </div>
+
+      <!-- Day timeline -->
+      <div class="panel" style="margin-top:16px">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px">
+          <h2 id="dayTitle" style="margin:0"></h2>
+          <span id="bookingCount" style="color: rgba(255,255,255,.6); font-size:.9rem"></span>
+        </div>
+        <div id="timelineWrap"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Detail overlay -->
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-card">
+    <button class="btn close-detail" id="closeDetail">✕</button>
+    <h3 id="detailTitle">Détail réservation</h3>
+    <div id="detailBody"></div>
+    <div class="hr" style="margin:16px 0"></div>
+    <button class="btn" id="deleteBooking" style="width:100%; color: #ff6b6b; border-color: rgba(255,100,100,.3)">
+      Supprimer cette réservation
+    </button>
+  </div>
+</div>
+
+  <script src="./js/app.js"></script>
+  <script src="./js/planning.js"></script>
+
+
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+        <p style="margin:8px 0 0; color: rgba(255,255,255,.45); font-size:.75rem; line-height:1.6">
+          © <span id="kbYear"></span> KINGBREL — Tous droits réservés
+        </p>
+      </div>
+      <div class="siteFooter__col">
+        <div class="siteFooter__title">Nous trouver</div>
+        <div class="siteFooter__text">4 rue Pachot Lainé, Livry Gargan, 93046</div>
+      </div>
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./mentions-legales.html">Mentions légales</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./rgpd.html">RGPD &amp; Confidentialité</a>
+        <div style="height:8px"></div>
+        <a class="btn btn--footer" href="./cookies.html">Cookies</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById("kbYear")&&(document.getElementById("kbYear").textContent=new Date().getFullYear())</script>
+
+</body>
+</html>
