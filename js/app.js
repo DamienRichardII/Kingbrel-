@@ -51,14 +51,8 @@ function injectHeaderFooter(){
           </p>
         </div>
         <div>
-          <h4 class="footerTitle">Nous trouver</h4>
-          <p style="margin:0; color: rgba(255,255,255,.82); line-height:1.6">${KINGBREL.address}</p>
-        </div>
-        <div>
           <h4 class="footerTitle">Nous contacter</h4>
           <a class="btn btn--primary" href="./contact.html">Accéder à la page contact</a>
-          <div style="height:10px"></div>
-          <a class="btn" href="./admin.html">Accès admin</a>
         </div>
         <div>
           <h4 class="footerTitle">Nous suivre</h4>
@@ -82,8 +76,7 @@ function injectHeaderFooter(){
       </div>
     </div>
   `;
-  document.body.prepend(header);
-  document.body.append(footer);
+  // header/footer déjà présents dans le HTML — injection désactivée
   const y = $("#year");
   if (y) y.textContent = new Date().getFullYear();
 }
