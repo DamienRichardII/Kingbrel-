@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FFC500" />
+  <title>KINGBREL — Abonnements</title>
+  <meta name="description" content="KINGBREL — Abonnements Silver, Gold, Platinium et VIP. Profitez de passages réguliers à prix réduit." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
+  <style>
+    /* ── Abonnements page ── */
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+      margin-bottom: 48px;
+    }
+    .sub-card {
+      background: #fff;
+      border-radius: 24px;
+      border: 2px solid rgba(0,0,0,.08);
+      padding: 28px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .sub-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.10); }
+    .sub-card--vip {
+      border-color: #FFC500;
+      background: linear-gradient(135deg, #fff 60%, #fffbe6);
+    }
+    .sub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 50px;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+    .sub-badge--silver { background: #e8e8e8; color: #555; }
+    .sub-badge--gold   { background: #fff3cc; color: #996600; }
+    .sub-badge--plat   { background: #e8eaf6; color: #3949ab; }
+    .sub-badge--vip    { background: #FFC500; color: #000; }
+    .sub-name {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
+      color: #0b0b0c;
+    }
+    .sub-desc {
+      font-size: .88rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      flex: 1;
+    }
+    .sub-price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #0b0b0c;
+      margin-bottom: 4px;
+    }
+    .sub-price span {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #888;
+    }
+    .sub-duration {
+      font-size: .78rem;
+      color: #888;
+      margin-bottom: 20px;
+    }
+    .sub-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: .95rem;
+      text-decoration: none;
+      border: 2px solid #0b0b0c;
+      background: #0b0b0c;
+      color: #fff;
+      transition: background .2s, color .2s, transform .15s;
+      cursor: pointer;
+    }
+    .sub-cta:hover { background: #fff; color: #0b0b0c; transform: translateY(-1px); }
+    .sub-card--vip .sub-cta {
+      background: #FFC500;
+      border-color: #FFC500;
+      color: #000;
+    }
+    .sub-card--vip .sub-cta:hover { background: #e6b200; border-color: #e6b200; }
+    .sub-divider {
+      height: 1px;
+      background: rgba(0,0,0,.07);
+      margin: 18px 0;
+    }
+    .sub-perks {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sub-perks li {
+      font-size: .83rem;
+      color: #444;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.5;
+    }
+    .sub-perks li::before {
+      content: "✓";
+      color: #FFC500;
+      font-weight: 900;
+      font-size: .9rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .sub-note {
+      text-align: center;
+      font-size: .8rem;
+      color: #888;
+      margin-top: 8px;
+      padding: 14px;
+      background: #f7f7f7;
+      border-radius: 14px;
+      margin-bottom: 40px;
+    }
+    .sub-note strong { color: #0b0b0c; }
+
+    /* Loading overlay */
+    .sub-cta.loading {
+      opacity: .6;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .sub-grid { grid-template-columns: 1fr; gap: 14px; }
+      .sub-card { padding: 22px 18px 20px; }
+      .sub-price { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <!-- Header -->
+  <header class="siteHeader" role="banner">
+    <div class="container siteHeader__inner">
+      <div class="siteHeader__left" aria-hidden="true"></div>
+
+      <div class="siteHeader__center">
+        <a class="siteHeader__brand" href="./index.html" aria-label="KINGBREL — Accueil">
+          <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteHeader__logo" />
+        </a>
+        <div class="siteHeader__ctas" role="navigation" aria-label="Navigation principale">
+          <a class="btn btn--header" href="./reserver.html">Réserver</a>
+          <a class="btn btn--header" href="./abonnements.html" aria-current="page" style="background:#FFC500; border-color:#FFC500; color:#000">Abonnements</a>
+          <a class="btn btn--headerGhost" href="./contact.html">Contact</a>
+        </div>
+      </div>
+
+      <div class="siteHeader__right" role="navigation" aria-label="Réseaux sociaux">
+        <a class="iconBtn" href="https://www.instagram.com/kingbrel__/" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="./assets/icon-instagram.svg" alt="" />
+        </a>
+        <a class="iconBtn" href="https://www.tiktok.com/@kingbrel__" target="_blank" rel="noopener" aria-label="TikTok">
+          <img src="./assets/icon-tiktok.svg" alt="" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="lightMain" id="main">
+    <section class="lightHero">
+      <div class="container">
+        <p class="lightKicker"><strong>Abonnements</strong> • 6 mois • Livry-Gargan</p>
+        <h1 class="pageTitle">Passe au niveau supérieur</h1>
+        <p class="lightLead">Profite d'un entretien régulier à prix réduit. Choisis la formule qui correspond à ton rythme et bénéficie de l'expérience KINGBREL complète.</p>
+      </div>
+    </section>
+
+    <section style="padding-bottom: 60px;">
+      <div class="container">
+
+        <div class="sub-grid">
+
+          <!-- SILVER -->
+          <div class="sub-card">
+            <span class="sub-badge sub-badge--silver">⬜ Silver</span>
+            <div class="sub-name">SILVER</div>
+            <ul class="sub-perks">
+              <li>2 passages par mois</li>
+              <li>-20% sur toutes les prestations éligibles</li>
+              <li>L'entretien Premium pour rester impeccable toute l'année</li>
+            </ul>
+            <div class="sub-divider"></div>
+            <div class="sub-price">40 € <span>/ 6 mois</span></div>
+            <div class="sub-duration">TVA 20% incluse</div>
+            <a class="sub-cta" id="btn-silver" href="STRIPE_LIEN_SILVER" target="_blank" rel="noopener">
+              Souscrire Silver
+            </a>
+          </div>
+
+          <!-- GOLD -->
+          <div class="sub-card">
+            <span class="sub-badge sub-badge--gold">🥇 Gold</span>
+            <div class="sub-name">GOLD</div>
+            <ul class="sub-perks">
+              <li>3 passages par mois</li>
+              <li>-25% sur toutes les prestations éligibles</li>
+              <li>Pour un style toujours net et une image irréprochable</li>
+            </ul>
+            <div class="sub-divider"></div>
+            <div class="sub-price">60 € <span>/ 6 mois</span></div>
+            <div class="sub-duration">TVA incluse</div>
+            <a class="sub-cta" id="btn-gold" href="STRIPE_LIEN_GOLD" target="_blank" rel="noopener">
+              Souscrire Gold
+            </a>
+          </div>
+
+          <!-- PLATINIUM -->
+          <div class="sub-card">
+            <span class="sub-badge sub-badge--plat">💎 Platinium</span>
+            <div class="sub-name">PLATINIUM</div>
+            <ul class="sub-perks">
+              <li>4 passages par mois</li>
+              <li>-20% sur toutes les prestations éligibles</li>
+              <li>L'expérience KINGBREL complète pour une fraîcheur permanente</li>
+            </ul>
+            <div class="sub-divider"></div>
+            <div class="sub-price">80 € <span>/ 6 mois</span></div>
+            <div class="sub-duration">TVA 20% incluse</div>
+            <a class="sub-cta" id="btn-platinium" href="STRIPE_LIEN_PLATINIUM" target="_blank" rel="noopener">
+              Souscrire Platinium
+            </a>
+          </div>
+
+          <!-- VIP -->
+          <div class="sub-card sub-card--vip">
+            <span class="sub-badge sub-badge--vip">👑 VIP</span>
+            <div class="sub-name">VIP</div>
+            <ul class="sub-perks">
+              <li>Offre Platinium incluse</li>
+              <li>Soins du visage, cheveux et barbe inclus</li>
+              <li>Accès prioritaire aux disponibilités</li>
+            </ul>
+            <div class="sub-divider"></div>
+            <div class="sub-price">120 € <span>/ 6 mois</span></div>
+            <div class="sub-duration">TVA 20% incluse</div>
+            <a class="sub-cta" id="btn-vip" href="STRIPE_LIEN_VIP" target="_blank" rel="noopener">
+              Souscrire VIP
+            </a>
+          </div>
+
+        </div>
+
+        <div class="sub-note">
+          <strong>Comment ça fonctionne ?</strong><br>
+          Après paiement via Stripe, tu reçois une confirmation par email. Présente-la lors de ton prochain passage.<br>
+          L'abonnement est valable <strong>6 mois</strong> à compter de la date de souscription.
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="siteFooter">
+    <div class="container siteFooter__inner">
+      <div class="siteFooter__col">
+        <img src="./assets/kingbrel-logo.png" alt="KINGBREL" class="siteFooter__logo" />
+      </div>
+      <div class="siteFooter__col siteFooter__col--right">
+        <div class="siteFooter__title">Nous contacter</div>
+        <a class="btn btn--footer" href="./contact.html">Page contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/app.js"></script>
+  <script>
+    // Charge les liens Stripe depuis l'admin config (localStorage)
+    (function loadStripeLinks() {
+      try {
+        const cfg = JSON.parse(localStorage.getItem("kb_stripe_config") || "{}");
+        const map = {
+          "btn-silver":    cfg.silver    || "STRIPE_LIEN_SILVER",
+          "btn-gold":      cfg.gold      || "STRIPE_LIEN_GOLD",
+          "btn-platinium": cfg.platinium || "STRIPE_LIEN_PLATINIUM",
+          "btn-vip":       cfg.vip       || "STRIPE_LIEN_VIP",
+        };
+        Object.entries(map).forEach(([id, url]) => {
+          const el = document.getElementById(id);
+          if (el && url && !url.startsWith("STRIPE_")) el.href = url;
+          if (el && (url.startsWith("STRIPE_") || !url)) {
+            el.style.opacity = ".4";
+            el.style.pointerEvents = "none";
+            el.textContent = "Bientôt disponible";
+          }
+        });
+      } catch(e) {}
+    })();
+  </script>
+</body>
+</html>

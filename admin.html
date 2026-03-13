@@ -145,6 +145,7 @@
         <button class="admin-tab" data-tab="disponibilites">📅 Disponibilités</button>
         <button class="admin-tab" data-tab="noshow">⚠️ No-Shows</button>
         <button class="admin-tab" data-tab="email">✉️ Email</button>
+        <button class="admin-tab" data-tab="stripe">💳 Abonnements</button>
         <a href="./planning.html" style="background:var(--supernova); color:#000; border-color:var(--supernova)">📆 Planning</a>
       </nav>
 
@@ -302,6 +303,51 @@
             <li>Crée un <strong>Template</strong> avec les variables : <code>{{to_email}}</code>, <code>{{client_name}}</code>, <code>{{service_name}}</code>, <code>{{date}}</code>, <code>{{start}}</code>, <code>{{end}}</code>, <code>{{client_phone}}</code>, <code>{{client_email}}</code>, <code>{{note}}</code></li>
             <li>Copie ton <strong>Public Key</strong> depuis Account → API Keys</li>
             <li>Colle les 3 valeurs ci-dessus et enregistre</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PANE: Abonnements Stripe -->
+      <div class="admin-pane" id="pane-stripe">
+        <div class="panel">
+          <h3 style="margin:0 0 8px">💳 Liens de paiement Stripe — Abonnements</h3>
+          <p style="margin:0 0 20px; color:rgba(255,255,255,.55); font-size:.85rem; line-height:1.7">
+            Colle ici les liens de paiement Stripe de chaque abonnement.<br>
+            Ces liens s'affichent automatiquement sur la page <strong>Abonnements</strong>.<br>
+            Pour créer un lien : Stripe Dashboard → Produits → Payment Links → Créer.
+          </p>
+
+          <div class="field">
+            <div class="label">⬜ Lien Stripe — SILVER (40€ / 6 mois)</div>
+            <input class="input" id="stripe_silver" type="url" placeholder="https://buy.stripe.com/..." />
+          </div>
+          <div class="field">
+            <div class="label">🥇 Lien Stripe — GOLD (60€ / 6 mois)</div>
+            <input class="input" id="stripe_gold" type="url" placeholder="https://buy.stripe.com/..." />
+          </div>
+          <div class="field">
+            <div class="label">💎 Lien Stripe — PLATINIUM (80€ / 6 mois)</div>
+            <input class="input" id="stripe_platinium" type="url" placeholder="https://buy.stripe.com/..." />
+          </div>
+          <div class="field" style="margin-bottom:20px">
+            <div class="label">👑 Lien Stripe — VIP (120€ / 6 mois)</div>
+            <input class="input" id="stripe_vip" type="url" placeholder="https://buy.stripe.com/..." />
+          </div>
+
+          <button class="btn btn--primary" id="saveStripeLinks" style="margin-bottom:10px">Enregistrer les liens</button>
+          <div id="stripeStatus" style="display:none; margin-top:10px; padding:10px 14px; border-radius:10px; background:rgba(100,220,100,.12); border:1px solid rgba(100,220,100,.3); color:#7dffb3; font-size:.85rem">
+            ✅ Liens Stripe enregistrés — La page Abonnements est à jour.
+          </div>
+
+          <div class="hr" style="margin-top:24px"></div>
+          <h4 style="margin:0 0 10px">Comment créer un lien Stripe ?</h4>
+          <ol style="color:rgba(255,255,255,.55); line-height:2.1; padding-left:18px; margin:0; font-size:.85rem">
+            <li>Connecte-toi sur <a href="https://dashboard.stripe.com" target="_blank" style="color:var(--supernova)">dashboard.stripe.com</a></li>
+            <li>Va dans <strong>Catalogue de produits</strong> → <strong>Payment Links</strong></li>
+            <li>Clique <strong>Créer un lien de paiement</strong></li>
+            <li>Ajoute le produit (Silver, Gold, Platinium ou VIP) avec le bon prix</li>
+            <li>Copie l'URL générée et colle-la dans le champ correspondant ci-dessus</li>
+            <li>Clique <strong>Enregistrer les liens</strong></li>
           </ol>
         </div>
       </div>
