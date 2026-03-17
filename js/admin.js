@@ -81,10 +81,12 @@ const EMAIL_STORAGE_KEY = "kb_email_config";
 
 function getEmailConfig(){
   const defaults = {
-    adminEmail: "damien.miyouna@gmail.com",
-    serviceId:  "service_bfriu0y",
-    templateId: "template_ynkyy9d",
-    publicKey:  "UCtJeGwPU8PvmNu14",
+    adminEmail:          "Kingbrel.paris@gmail.com",
+    serviceId:           "service_bfriu0y",
+    templateId:          "template_ynkyy9d",
+    publicKey:           "UCtJeGwPU8PvmNu14",
+    templateClientEmail: "template_mg4gs3p",
+    templateClientSms:   "template_8bv9xa1",
   };
   const saved = readJSON(EMAIL_STORAGE_KEY, null);
   return saved ? Object.assign({}, defaults, saved) : defaults;

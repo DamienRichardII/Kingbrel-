@@ -420,6 +420,8 @@ function ensureModal(){
 
     // Send confirmation email + SMS to CLIENT via EmailJS
     sendClientConfirmation(booking);
+    // Send notification to ADMIN via EmailJS
+    sendAdminNotification(booking);
 
     toast("Réservation confirmée ✔");
     closeModal();
@@ -656,7 +658,7 @@ async function sendClientConfirmation(booking) {
     const noshowTxt = booking.noshowAmount ? ` (no-show : ${booking.noshowAmount})` : "";
 
     // ── EMAIL au client ──
-    const emailTemplateId = cfg.templateClientEmail || "template_confirmation_email";
+    const emailTemplateId = cfg.templateClientEmail || "template_mg4gs3p";
     await emailjs.send(cfg.serviceId, emailTemplateId, {
       to_email:      booking.email,
       client_name:   booking.name,
@@ -669,8 +671,8 @@ async function sendClientConfirmation(booking) {
     }).catch(err => console.warn("[KINGBREL] Email client:", err));
 
     // ── SMS au client via EmailJS SMS ──
-    const smsTemplateId = cfg.templateClientSms || "template_confirmation_sms";
-    if (cfg.templateClientSms) {
+    const smsTemplateId = cfg.templateClientSms || "template_8bv9xa1";
+    if (smsTemplateId) {
       await emailjs.send(cfg.serviceId, smsTemplateId, {
         to_phone:      booking.phone,
         client_name:   booking.name,
@@ -686,16 +688,54 @@ async function sendClientConfirmation(booking) {
 }
 
 function getEmailConfig() {
+  // Valeurs par défaut — modifiables depuis Admin → Email
   const defaults = {
-    adminEmail: "Kingbrel.paris@gmail.com",
-    serviceId:  "service_bfriu0y",
-    templateId: "template_ynkyy9d",
-    publicKey:  "UCtJeGwPU8PvmNu14",
-    templateClientEmail: "template_confirmation_email",
-    templateClientSms: "",
+    adminEmail:          "Kingbrel.paris@gmail.com",
+    serviceId:           "service_bfriu0y",
+    templateId:          "template_ynkyy9d",          // template notif admin
+    publicKey:           "UCtJeGwPU8PvmNu14",
+    templateClientEmail: "template_mg4gs3p",   // template confirmation client
+    templateClientSms:   "template_8bv9xa1",  // template confirmation SMS
   };
   try {
     const saved = JSON.parse(localStorage.getItem("kb_email_config") || "null");
-    return saved ? Object.assign({}, defaults, saved) : defaults;
+    if (!saved) return defaults;
+    // Garder defaults pour les champs non renseignés
+    const merged = Object.assign({}, defaults, saved);
+    // Si templateClientEmail vide, utiliser default
+    if (!merged.templateClientEmail) merged.templateClientEmail = defaults.templateClientEmail;
+    return merged;
   } catch(e) { return defaults; }
+}
+
+/* ============================================================
+   NOTIFICATION ADMIN — Email au coiffeur à chaque réservation
+   Utilise le même template existant template_ynkyy9d
+   ============================================================ */
+async function sendAdminNotification(booking) {
+  try {
+    const cfg = getEmailConfig();
+    if (!cfg.serviceId || !cfg.publicKey || !cfg.templateId) return;
+    if (typeof emailjs === "undefined") return;
+
+    emailjs.init(cfg.publicKey);
+
+    const dateFR = formatDateFR(booking.date);
+
+    await emailjs.send(cfg.serviceId, cfg.templateId, {
+      to_email:      cfg.adminEmail,
+      client_name:   booking.name,
+      service_name:  booking.serviceName,
+      service_price: booking.servicePrice || "",
+      date:          dateFR,
+      start:         booking.start,
+      end:           booking.end,
+      client_phone:  booking.phone,
+      client_email:  booking.email,
+      note:          booking.note || "—",
+    }).catch(err => console.warn("[KINGBREL] Admin email:", err));
+
+  } catch(e) {
+    console.warn("[KINGBREL] sendAdminNotification error:", e);
+  }
 }
