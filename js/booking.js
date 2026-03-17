@@ -34,25 +34,26 @@ const BUSINESS = {
 
 const SERVICES = [
   // Popular
-  { id:"coupe-simple", cat:"Coiffure", name:"Coupe simple", price:"20€", durationMin:45, popular:true },
-  { id:"coupe-barbe", cat:"Coiffure", name:"Coupe + Barbe", price:"30€", durationMin:60, popular:true },
-  { id:"contours", cat:"Coiffure", name:"Contours", price:"20€", durationMin:45, popular:true },
+  { id:"coupe-simple", cat:"Coiffure", name:"Coupe simple", price:"25€", priceNum:25, noshowAmount:"12.50€", durationMin:45, popular:true },
+  { id:"coupe-barbe", cat:"Coiffure", name:"Coupe + Barbe", price:"35€", priceNum:35, noshowAmount:"17.50€", durationMin:60, popular:true },
+  { id:"coupe-bouc", cat:"Coiffure", name:"Coupe + Bouc", price:"30€", priceNum:30, noshowAmount:"15€", durationMin:50 },
+  { id:"contours", cat:"Coiffure", name:"Contours", price:"15€", priceNum:15, noshowAmount:"7.50€", durationMin:15, popular:true },
 
   // Coiffure
-  { id:"rasage-lame", cat:"Coiffure", name:"Rasage de crâne (lame)", price:"15€", durationMin:20 },
-  { id:"rasage-tondeuse", cat:"Coiffure", name:"Rasage de crâne (tondeuse)", price:"10€", durationMin:15 },
+  { id:"rasage-lame", cat:"Coiffure", name:"Rasage de crâne à la lame", price:"20€", priceNum:20, noshowAmount:"10€", durationMin:20 },
+  { id:"rasage-tondeuse", cat:"Coiffure", name:"Rasage de crâne à la tondeuse", price:"15€", priceNum:15, noshowAmount:"7.50€", durationMin:15 },
   { id:"rasage-tondeuse-barbe", cat:"Coiffure", name:"Rasage tondeuse + barbe", price:"20€", durationMin:45 },
-  { id:"enfant", cat:"Coiffure", name:"Coupe enfant (-12 ans)", price:"15€", durationMin:35 },
+  { id:"coupe-junior", cat:"Coiffure", name:"Coupe junior (-18 ans)", price:"20€", priceNum:20, noshowAmount:"10€", durationMin:40 },
 
   // Barbe
-  { id:"barbe", cat:"Barbe", name:"Barbe", price:"10€", durationMin:20 },
+  { id:"barbe", cat:"Barbe", name:"Barbe", price:"15€", priceNum:15, noshowAmount:"7.50€", durationMin:25 },
 
   // Colorations
   { id:"coloration", cat:"Colorations", name:"Coloration", price:"Sur devis", durationMin:90 },
   { id:"decoloration", cat:"Colorations", name:"Décoloration", price:"Sur devis", durationMin:90 },
 
   // Soins
-  { id:"soin-visage", cat:"Soins du visage", name:"Soin du visage", price:"25€", durationMin:60 },
+  { id:"soin-visage", cat:"Soins du visage", name:"Soin du visage", price:"25€", priceNum:25, noshowAmount:"12.50€", durationMin:60 },
 ];
 
 function readJSON(key, fallback){
@@ -417,6 +418,9 @@ function ensureModal(){
     bookings.push(booking);
     setBookings(bookings);
 
+    // Send confirmation email + SMS to CLIENT via EmailJS
+    sendClientConfirmation(booking);
+
     toast("Réservation confirmée ✔");
     closeModal();
   });
@@ -614,3 +618,63 @@ document.addEventListener("DOMContentLoaded", ()=>{
 });
 
 window.openBooking = openBooking;
+
+/* ============================================================
+   NOTIFICATION CLIENT — Email de confirmation + SMS
+   ============================================================
+   Nécessite 2 templates EmailJS :
+   - template_confirmation_email : email HTML complet au client
+   - template_confirmation_sms   : SMS court via EmailJS SMS
+   Les IDs sont configurables depuis Admin → Email
+   ============================================================ */
+
+function formatDateFR(dateKey) {
+  const [y, m, d] = dateKey.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+}
+
+async function sendClientConfirmation(booking) {
+  try {
+    const cfg = getEmailConfig ? getEmailConfig() : JSON.parse(localStorage.getItem("kb_email_config") || "{}");
+    if (!cfg.serviceId || !cfg.publicKey) return;
+
+    if (typeof emailjs === "undefined") return;
+    emailjs.init(cfg.publicKey);
+
+    const dateFR = formatDateFR(booking.date);
+    const noshowTxt = booking.noshowAmount ? ` (no-show : ${booking.noshowAmount})` : "";
+
+    // ── EMAIL au client ──
+    const emailTemplateId = cfg.templateClientEmail || "template_confirmation_email";
+    await emailjs.send(cfg.serviceId, emailTemplateId, {
+      to_email:      booking.email,
+      client_name:   booking.name,
+      service_name:  booking.serviceName,
+      service_price: booking.servicePrice || booking.price || "",
+      date:          dateFR,
+      heure:         booking.start,
+      noshow:        noshowTxt,
+      card_last4:    booking.cardLast4 || "",
+    }).catch(err => console.warn("[KINGBREL] Email client:", err));
+
+    // ── SMS au client via EmailJS SMS ──
+    const smsTemplateId = cfg.templateClientSms || "template_confirmation_sms";
+    if (cfg.templateClientSms) {
+      await emailjs.send(cfg.serviceId, smsTemplateId, {
+        to_phone:      booking.phone,
+        client_name:   booking.name,
+        service_name:  booking.serviceName,
+        date:          dateFR,
+        heure:         booking.start,
+      }).catch(err => console.warn("[KINGBREL] SMS client:", err));
+    }
+
+  } catch(e) {
+    console.warn("[KINGBREL] sendClientConfirmation error:", e);
+  }
+}
+
+function getEmailConfig() {
+  try { return JSON.parse(localStorage.getItem("kb_email_config") || "{}"); } catch(e) { return {}; }
+}

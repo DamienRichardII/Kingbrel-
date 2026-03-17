@@ -288,6 +288,18 @@
             <input class="input" id="ejsPublicKey" placeholder="xxxxxxxxxxxxxxxxxxxx" />
           </div>
 
+          <div class="hr" style="margin-top:4px"></div>
+          <p style="margin:0 0 10px; font-weight:700; font-size:.9rem; color:rgba(255,255,255,.8)">📧 Confirmation automatique CLIENT</p>
+          <div class="field">
+            <div class="label">Template ID — Email client</div>
+            <input class="input" id="ejsTemplateClientEmail" placeholder="template_confirmation_email" />
+            <div style="font-size:.72rem;color:rgba(255,255,255,.38);margin-top:3px">Variables : {{to_email}} {{client_name}} {{service_name}} {{service_price}} {{date}} {{heure}} {{noshow}}</div>
+          </div>
+          <div class="field">
+            <div class="label">Template ID — SMS client (optionnel)</div>
+            <input class="input" id="ejsTemplateClientSms" placeholder="template_confirmation_sms" />
+            <div style="font-size:.72rem;color:rgba(255,255,255,.38);margin-top:3px">Variables : {{to_phone}} {{client_name}} {{service_name}} {{date}} {{heure}}</div>
+          </div>
           <button class="btn btn--primary" id="saveEmailConfig">Enregistrer la configuration</button>
           <button class="btn" id="testEmail" style="margin-left:10px">Envoyer un email de test</button>
 

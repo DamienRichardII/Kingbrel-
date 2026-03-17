@@ -527,6 +527,10 @@ function renderEmailConfig(){
   if (!adminEmailEl) return;
 
   adminEmailEl.value = cfg.adminEmail || "";
+  const tplClientEmailEl = document.getElementById("ejsTemplateClientEmail");
+  const tplClientSmsEl   = document.getElementById("ejsTemplateClientSms");
+  if (tplClientEmailEl) tplClientEmailEl.value = cfg.templateClientEmail || "";
+  if (tplClientSmsEl)   tplClientSmsEl.value   = cfg.templateClientSms   || "";
   serviceIdEl.value = cfg.serviceId || "";
   templateIdEl.value = cfg.templateId || "";
   publicKeyEl.value = cfg.publicKey || "";
@@ -543,6 +547,8 @@ function renderEmailConfig(){
       serviceId: serviceIdEl.value.trim(),
       templateId: templateIdEl.value.trim(),
       publicKey: publicKeyEl.value.trim(),
+      templateClientEmail: (document.getElementById("ejsTemplateClientEmail")?.value || "").trim() || "template_confirmation_email",
+      templateClientSms:   (document.getElementById("ejsTemplateClientSms")?.value || "").trim(),
     };
     saveEmailConfig(newCfg);
     toast("Configuration enregistrée ✔");
