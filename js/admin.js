@@ -759,3 +759,42 @@ document.addEventListener("DOMContentLoaded", () => {
   initNoshowForm();
   initTabPersistence();
 });
+
+/* ========== STRIPE LINKS CONFIG ========== */
+const STRIPE_KEY = "kb_stripe_config";
+
+function getStripeConfig() {
+  try { return JSON.parse(localStorage.getItem(STRIPE_KEY) || "{}"); } catch(e) { return {}; }
+}
+function saveStripeConfig(cfg) {
+  localStorage.setItem(STRIPE_KEY, JSON.stringify(cfg));
+}
+
+function initStripePanel() {
+  const saveBtn = document.getElementById("saveStripeLinks");
+  if (!saveBtn) return;
+
+  // Load saved values
+  const cfg = getStripeConfig();
+  const fields = { silver: "stripe_silver", gold: "stripe_gold", platinium: "stripe_platinium", vip: "stripe_vip" };
+  Object.entries(fields).forEach(([key, id]) => {
+    const el = document.getElementById(id);
+    if (el && cfg[key]) el.value = cfg[key];
+  });
+
+  saveBtn.addEventListener("click", () => {
+    const newCfg = {};
+    Object.entries(fields).forEach(([key, id]) => {
+      const el = document.getElementById(id);
+      if (el && el.value.trim()) newCfg[key] = el.value.trim();
+    });
+    saveStripeConfig(newCfg);
+    const status = document.getElementById("stripeStatus");
+    if (status) { status.style.display = "block"; setTimeout(() => status.style.display = "none", 4000); }
+    toast("Liens Stripe enregistrés ✔");
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initStripePanel();
+});

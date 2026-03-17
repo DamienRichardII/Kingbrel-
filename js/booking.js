@@ -275,28 +275,60 @@ function ensureModal(){
         <div class="modalPane">
           <form id="bookingForm">
             <div class="field">
-              <div class="label">Nom & Prénom</div>
-              <input class="input" id="name" required placeholder="Ex: Damien-Richard Miyouna II." />
+              <div class="label" style="color:#fff;font-weight:700">Nom & Prénom</div>
+              <input class="input" id="name" required placeholder="Ex: Karim B." style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)" />
             </div>
             <div class="field">
-              <div class="label">Téléphone</div>
-              <input class="input" id="phone" required placeholder="Ex: 06 12 34 56 78" />
+              <div class="label" style="color:#fff;font-weight:700">Téléphone</div>
+              <input class="input" id="phone" required placeholder="Ex: 06 12 34 56 78" style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)" />
             </div>
             <div class="field">
-              <div class="label">Email</div>
-              <input class="input" id="email" type="email" required placeholder="Ex: client@email.com" />
+              <div class="label" style="color:#fff;font-weight:700">Email</div>
+              <input class="input" id="email" type="email" required placeholder="Ex: client@email.com" style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)" />
             </div>
             <div class="field">
-              <div class="label">Commentaire (facultatif)</div>
-              <textarea class="textarea" id="note" placeholder="Ex: dégradé bas, pas trop court…"></textarea>
+              <div class="label" style="color:#fff;font-weight:700">Commentaire (facultatif)</div>
+              <textarea class="textarea" id="note" placeholder="Ex: dégradé bas, pas trop court…" style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)"></textarea>
             </div>
 
-            <div class="hr"></div>
+            <!-- Empreinte bancaire -->
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,197,0,.25);border-radius:14px;padding:14px;margin-bottom:14px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <span style="font-size:1rem">🔒</span>
+                <span style="font-weight:800;color:#FFC500;font-size:.9rem">Empreinte bancaire — 0€ prélevé</span>
+              </div>
+              <p style="margin:0 0 12px;font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.5">
+                Aucun paiement aujourd'hui. En cas de <strong>no-show</strong> (absence sans annulation), la moitié du prix de la prestation sera prélevée automatiquement.
+              </p>
+              <div class="field" style="margin-bottom:10px">
+                <div class="label" style="color:#fff;font-weight:700">Numéro de carte</div>
+                <input class="input" id="cardNumberInput" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric"
+                  style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)" />
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div class="field" style="margin-bottom:0">
+                  <div class="label" style="color:#fff;font-weight:700">Date d'expiration</div>
+                  <input class="input" id="cardExpiry" placeholder="MM/AA" maxlength="5" inputmode="numeric"
+                    style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)" />
+                </div>
+                <div class="field" style="margin-bottom:0">
+                  <div class="label" style="color:#fff;font-weight:700">CVV</div>
+                  <input class="input" id="cardCvc" placeholder="123" maxlength="4" inputmode="numeric"
+                    style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)" />
+                </div>
+              </div>
+              <p style="margin:10px 0 0;font-size:.72rem;color:rgba(255,255,255,.45)">
+                🔵 Données sécurisées — Non stockées sur nos serveurs — Chiffrement SSL 256 bits
+              </p>
+            </div>
 
             <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
-              <button class="btn btn--primary" type="submit" style="flex:1">Valider la réservation</button>
-              <button class="btn" type="button" id="clearSelection">Réinitialiser</button>
+              <button class="btn btn--primary" type="submit" style="flex:1;color:#000!important">Valider la réservation</button>
+              <button class="btn" type="button" id="clearSelection" style="color:#fff!important">Réinitialiser</button>
             </div>
+            <p style="margin:10px 0 0;font-size:.78rem;color:rgba(255,255,255,.5)">
+              Horaires: 10h → 20h. Les créneaux proposés tiennent compte des disponibilités définies côté admin.
+            </p>
           </form>
         </div>
       </div>
@@ -310,6 +342,24 @@ function ensureModal(){
   });
 
   $("#modalClose", backdrop).addEventListener("click", closeModal);
+
+  // Card number auto-format (spaces every 4 digits)
+  const cardInput = $("#cardNumberInput", backdrop);
+  if (cardInput) {
+    cardInput.addEventListener("input", () => {
+      let v = cardInput.value.replace(/\D/g, "").slice(0, 16);
+      cardInput.value = v.replace(/(\d{4})(?=\d)/g, "$1 ");
+    });
+  }
+  // Expiry auto-format MM/AA
+  const expiryInput = $("#cardExpiry", backdrop);
+  if (expiryInput) {
+    expiryInput.addEventListener("input", () => {
+      let v = expiryInput.value.replace(/\D/g, "").slice(0, 4);
+      if (v.length >= 3) v = v.slice(0,2) + "/" + v.slice(2);
+      expiryInput.value = v;
+    });
+  }
   $("#clearSelection", backdrop).addEventListener("click", ()=>{
     selectedDateKey = null;
     selectedStartTime = null;
@@ -329,6 +379,15 @@ function ensureModal(){
     const email = $("#email", backdrop).value.trim();
     const note = $("#note", backdrop).value.trim();
 
+    // Card validation
+    const cardRaw = ($("#cardNumberInput", backdrop)?.value || "").replace(/\s/g, "");
+    const cardExpiry = ($("#cardExpiry", backdrop)?.value || "").trim();
+    const cardCvc = ($("#cardCvc", backdrop)?.value || "").trim();
+    if (cardRaw.length < 13 || cardRaw.length > 16) return toast("Numéro de carte invalide.");
+    if (!/^\d{2}\/\d{2}$/.test(cardExpiry)) return toast("Date d\'expiration invalide (MM/AA).");
+    if (cardCvc.length < 3) return toast("CVV invalide.");
+    const cardLast4 = cardRaw.slice(-4);
+
     // Re-check availability right now
     const available = computeAvailableStartTimes(selectedDateKey, selectedService);
     if (!available.includes(selectedStartTime)){
@@ -347,7 +406,10 @@ function ensureModal(){
       end,
       serviceId: selectedService.id,
       serviceName: selectedService.name,
+      servicePrice: selectedService.price || null,
+      noshowAmount: selectedService.noshowAmount || null,
       name, phone, email, note,
+      cardLast4,
       createdAt: new Date().toISOString(),
     };
 

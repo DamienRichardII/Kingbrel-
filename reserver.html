@@ -71,6 +71,7 @@
                 <div class="serviceRow__meta">25€ • 45 min</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="coupe-simple">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_COUPE_SIMPLE" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
               <div class="serviceRow">
@@ -78,6 +79,7 @@
                 <div class="serviceRow__meta">35€ • 1h</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="coupe-barbe">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_COUPE_BARBE" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
               <div class="serviceRow">
@@ -85,6 +87,7 @@
                 <div class="serviceRow__meta">30€ • 50 min</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="coupe-bouc">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_COUPE_BOUC" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
               <div class="serviceRow">
@@ -92,6 +95,7 @@
                 <div class="serviceRow__meta">15€ • 15 min</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="contours">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_CONTOURS" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
               <div class="serviceRow">
@@ -99,6 +103,7 @@
                 <div class="serviceRow__meta">20€ • 20 min</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="rasage-lame">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_RASAGE_LAME" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
               <div class="serviceRow">
@@ -106,6 +111,7 @@
                 <div class="serviceRow__meta">15€ • 15 min</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="rasage-tondeuse">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_RASAGE_TONDEUSE" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
               <div class="serviceRow">
@@ -113,6 +119,7 @@
                 <div class="serviceRow__meta">20€ • 40 min</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="coupe-junior">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_COUPE_JUNIOR" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
             </div>
@@ -138,6 +145,7 @@
                 <div class="serviceRow__meta">15€ • 25 min</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="barbe">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_BARBE" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
             </div>
@@ -197,6 +205,7 @@
                 <div class="serviceRow__meta">25€ • 1h</div>
                 <div class="serviceRow__actions">
                   <button class="btn btn--book" data-book="soin-visage">Réserver</button>
+                  <a class="btn btn--pay" href="STRIPE_LIEN_SOIN_VISAGE" target="_blank" rel="noopener">Payer en ligne</a>
                 </div>
               </div>
             </div>
@@ -221,10 +230,10 @@
     </div>
   </footer>
 
-  <script src="./js/app.js" defer></script>
-  <script src="./js/booking.js" defer></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/booking.js"></script>
 
-  <script defer>
+  <script>
     window.addEventListener("DOMContentLoaded", () => {
       const accordions = Array.from(document.querySelectorAll(".accordion"));
       accordions.forEach(d => {

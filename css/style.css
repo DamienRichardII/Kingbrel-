@@ -1099,3 +1099,32 @@ details[open] .accordion__chev{transform: rotate(45deg);}
   .contactForm__grid{ grid-template-columns: 1fr; }
   .contactForm__full{ grid-column: auto; }
 }
+
+/* ============================================================
+   V3 Launch — Modal form inputs lisibles + placeholder visible
+   ============================================================ */
+.modal .input,
+.modal .textarea,
+.modal input,
+.modal textarea {
+  background: rgba(255,255,255,.14) !important;
+  color: #fff !important;
+  border-color: rgba(255,255,255,.3) !important;
+}
+.modal .input::placeholder,
+.modal .textarea::placeholder,
+.modal input::placeholder,
+.modal textarea::placeholder {
+  color: rgba(255,255,255,.45) !important;
+}
+.modal .input:focus,
+.modal .textarea:focus,
+.modal input:focus,
+.modal textarea:focus {
+  border-color: rgba(255,197,0,.6) !important;
+  box-shadow: 0 0 0 3px rgba(255,197,0,.18) !important;
+  background: rgba(255,255,255,.18) !important;
+}
+.modal .label { color: #fff !important; font-weight: 700 !important; }
+.modal .btn { color: #fff !important; }
+.modal .btn--primary { color: #000 !important; }
