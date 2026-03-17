@@ -617,6 +617,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
   }
 });
 
+// Init EmailJS dès le chargement
+(function() {
+  try {
+    if (typeof emailjs !== "undefined") {
+      const cfg = getEmailConfig();
+      if (cfg.publicKey) emailjs.init(cfg.publicKey);
+    }
+  } catch(e) {}
+})();
+
 window.openBooking = openBooking;
 
 /* ============================================================
@@ -676,5 +686,16 @@ async function sendClientConfirmation(booking) {
 }
 
 function getEmailConfig() {
-  try { return JSON.parse(localStorage.getItem("kb_email_config") || "{}"); } catch(e) { return {}; }
+  const defaults = {
+    adminEmail: "Kingbrel.paris@gmail.com",
+    serviceId:  "service_bfriu0y",
+    templateId: "template_ynkyy9d",
+    publicKey:  "UCtJeGwPU8PvmNu14",
+    templateClientEmail: "template_confirmation_email",
+    templateClientSms: "",
+  };
+  try {
+    const saved = JSON.parse(localStorage.getItem("kb_email_config") || "null");
+    return saved ? Object.assign({}, defaults, saved) : defaults;
+  } catch(e) { return defaults; }
 }
