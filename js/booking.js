@@ -674,11 +674,14 @@ async function sendClientConfirmation(booking) {
     const smsTemplateId = cfg.templateClientSms || "template_8bv9xa1";
     if (smsTemplateId) {
       await emailjs.send(cfg.serviceId, smsTemplateId, {
-        to_phone:      booking.phone,
-        client_name:   booking.name,
-        service_name:  booking.serviceName,
-        date:          dateFR,
-        heure:         booking.start,
+        to_phone:    booking.phone,   // -> "To Email" du template
+        name:        booking.name,    // -> From Name + {{name}} dans le body
+        email:       booking.email,   // -> Reply To {{email}}
+        client_name: booking.name,
+        service_name: booking.serviceName,
+        date:        dateFR,
+        heure:       booking.start,
+        message:     `Votre RDV chez KINGBREL est confirmé pour le ${dateFR} à ${booking.start}.`,
       }).catch(err => console.warn("[KINGBREL] SMS client:", err));
     }
 
