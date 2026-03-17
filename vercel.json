@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/admin", "destination": "/admin.html", "permanent": false },
+    { "source": "/planning", "destination": "/planning.html", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/admin.html",

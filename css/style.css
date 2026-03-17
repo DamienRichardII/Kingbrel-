@@ -1128,3 +1128,89 @@ details[open] .accordion__chev{transform: rotate(45deg);}
 .modal .label { color: #fff !important; font-weight: 700 !important; }
 .modal .btn { color: #fff !important; }
 .modal .btn--primary { color: #000 !important; }
+
+/* ============================================================
+   Admin — Optimisation mobile complète
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Admin page nav — scroll horizontal */
+  .admin-page-nav {
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px !important;
+    gap: 6px !important;
+  }
+  .admin-page-nav a,
+  .admin-page-nav button,
+  .admin-page-nav .admin-tab {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 8px 12px !important;
+    font-size: .78rem !important;
+    min-height: 38px;
+  }
+
+  /* Stats bar — 2 colonnes */
+  .stats-bar {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* Panels padding réduit */
+  .panel { padding: 14px !important; }
+
+  /* Filtres réservations — colonne */
+  .panel [style*="display:flex"][style*="gap"] {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  /* Table réservations — scroll */
+  .panel table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: .78rem;
+  }
+
+  /* Inputs/selects full width */
+  .panel select,
+  .panel input[type="text"],
+  .panel input[type="date"],
+  .panel input[type="email"],
+  .panel input[type="url"] {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* Boutons action — full width sur mobile */
+  .panel .btn { min-height: 42px; }
+
+  /* No-show form — 1 colonne */
+  #pane-noshow [style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Planning semaine */
+  .week-strip {
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .week-day { min-width: 80px !important; }
+
+  /* Email config — stack boutons */
+  #pane-email .btn { display: block; width: 100%; margin-bottom: 8px; margin-left: 0 !important; }
+
+  /* Stripe panel */
+  #pane-stripe .btn { display: block; width: 100%; margin-bottom: 8px; }
+
+  /* Admin page title */
+  .pageTitle { font-size: 1.4rem !important; }
+}
+
+@media (max-width: 480px) {
+  .stats-bar { grid-template-columns: 1fr !important; }
+  .admin-page-nav span { display: none; } /* Cache label "ESPACE ADMIN" */
+}

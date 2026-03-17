@@ -324,7 +324,7 @@ function ensureModal(){
             </div>
 
             <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
-              <button class="btn btn--primary" type="submit" style="flex:1;color:#000!important">Valider la réservation</button>
+              <button class="btn btn--primary" type="submit" style="flex:1;background:#FFC500!important;border-color:#FFC500!important;color:#000!important;font-weight:800">Valider la réservation</button>
               <button class="btn" type="button" id="clearSelection" style="color:#fff!important">Réinitialiser</button>
             </div>
             <p style="margin:10px 0 0;font-size:.78rem;color:rgba(255,255,255,.5)">
