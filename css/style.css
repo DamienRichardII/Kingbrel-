@@ -599,9 +599,12 @@ background-size:cover;
 }
 /* Fix E alignment on mobile */
 @media (max-width: 768px) {
+  .logo-mark {
+    align-items: center;
+  }
   .logo-mark .logo-e {
-    transform: translateY(-.05em);
-    height: 0.68em;
+    transform: translateY(0);
+    height: 0.72em;
   }
 }
 .logo-mark .logo-e i{
