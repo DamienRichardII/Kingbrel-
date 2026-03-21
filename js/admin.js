@@ -420,6 +420,7 @@ function renderDayEditor(){
   $("#dayOpenBtn", wrap).addEventListener("click", ()=>{
     setDayOpen(selectedDateKey, !av.open);
     toast(!av.open ? "Journée ouverte" : "Journée fermée");
+    if (typeof renderAvailCalendar === "function") renderAvailCalendar();
     renderDayEditor(); renderBookings();
   });
   $("#allOpen", wrap).addEventListener("click", ()=>{
@@ -432,7 +433,8 @@ function renderDayEditor(){
   $("#saveSlots", wrap).addEventListener("click", ()=>{
     const slots = $all('input[type="checkbox"]', wrap).filter(cb=> cb.checked).map(cb=> cb.getAttribute("data-slot"));
     if (slots.length === 0){ setDayOpen(selectedDateKey, false); toast("Journée fermée (aucun créneau)"); }
-    else { setDaySlots(selectedDateKey, slots); toast("Disponibilités enregistrées ✔"); }
+    else { setDaySlots(selectedDateKey, slots); toast("Disponibilités enregistrées ✔");
+      if (typeof renderAvailCalendar === "function") renderAvailCalendar(); }
     renderBookings();
   });
   const d = new Date(selectedDateKey+"T00:00:00");
@@ -805,4 +807,127 @@ function initStripePanel() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initStripePanel();
+});
+
+/* ========== CALENDRIER MENSUEL DISPONIBILITÉS ADMIN ========== */
+let availCursor = null; // premier jour du mois affiché
+
+function renderAvailCalendar() {
+  if (!availCursor) {
+    const now = new Date();
+    availCursor = new Date(now.getFullYear(), now.getMonth(), 1);
+  }
+
+  const label = document.getElementById("availMonthLabel");
+  const grid  = document.getElementById("availCalGrid");
+  if (!label || !grid) return;
+
+  const locale = "fr-FR";
+  label.textContent = availCursor.toLocaleDateString(locale, { month:"long", year:"numeric" })
+    .replace(/^\w/, c => c.toUpperCase());
+
+  const dows = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
+  const closedWeekDays = [0, 1]; // Dim=0, Lun=1 toujours fermés
+
+  const avAll = getAvailAll();
+  const last  = new Date(availCursor.getFullYear(), availCursor.getMonth()+1, 0);
+  const firstJsDay = availCursor.getDay(); // 0=Dim
+  const offset = (firstJsDay + 6) % 7;    // 0=Lun
+
+  let html = dows.map(d =>
+    `<div style="text-align:center;font-size:.72rem;font-weight:800;color:rgba(255,255,255,.45);padding:4px 0">${d}</div>`
+  ).join("");
+
+  // Empty cells
+  for (let i = 0; i < offset; i++) html += `<div></div>`;
+
+  for (let day = 1; day <= last.getDate(); day++) {
+    const date    = new Date(availCursor.getFullYear(), availCursor.getMonth(), day);
+    const key     = toDateKey(date);
+    const jsWDay  = date.getDay();
+    const isClosed = closedWeekDays.includes(jsWDay);
+    const av       = avAll[key];
+    const isSelected = selectedDateKey === key;
+
+    let bg, border, opacity, cursor;
+    if (isClosed) {
+      bg = "rgba(255,255,255,.04)"; border = "rgba(255,255,255,.08)";
+      opacity = ".3"; cursor = "not-allowed";
+    } else if (av && av.open === false) {
+      bg = "rgba(255,80,80,.18)"; border = "rgba(255,80,80,.4)";
+      opacity = "1"; cursor = "pointer";
+    } else if (av && av.open === true) {
+      bg = "rgba(255,197,0,.22)"; border = "var(--supernova)";
+      opacity = "1"; cursor = "pointer";
+    } else {
+      bg = "rgba(255,255,255,.06)"; border = "rgba(255,255,255,.14)";
+      opacity = "1"; cursor = "pointer";
+    }
+
+    const selectedStyle = isSelected ? "outline:2px solid var(--supernova);outline-offset:2px;" : "";
+
+    html += `<div
+      data-avdate="${key}"
+      data-closed="${isClosed}"
+      style="
+        text-align:center;padding:8px 4px;border-radius:10px;
+        background:${bg};border:1px solid ${border};
+        opacity:${opacity};cursor:${cursor};
+        font-size:.82rem;font-weight:700;${selectedStyle}
+        transition:background .15s;
+      "
+    >${day}</div>`;
+  }
+
+  grid.innerHTML = html;
+
+  // Click handler
+  grid.querySelectorAll("[data-avdate]").forEach(cell => {
+    if (cell.getAttribute("data-closed") === "true") return;
+    cell.addEventListener("click", () => {
+      const dateKey = cell.getAttribute("data-avdate");
+
+      // If it's already selected — toggle open/closed
+      if (selectedDateKey === dateKey) {
+        const av = getAvailabilityForDate(dateKey);
+        setDayOpen(dateKey, !av.open);
+        toast(!av.open ? "Journée ouverte ✔" : "Journée fermée ✖");
+        renderAvailCalendar();
+        renderDayEditor();
+        renderBookings();
+        return;
+      }
+
+      // Select this day
+      selectedDateKey = dateKey;
+      // Set input date picker too
+      const inp = document.getElementById("adminDate");
+      if (inp) inp.value = dateKey;
+
+      renderAvailCalendar();
+      renderDayEditor();
+      renderBookings();
+    });
+  });
+}
+
+function initAvailCalendar() {
+  const prevBtn = document.getElementById("availPrev");
+  const nextBtn = document.getElementById("availNext");
+  if (!prevBtn) return;
+
+  prevBtn.addEventListener("click", () => {
+    availCursor = new Date(availCursor.getFullYear(), availCursor.getMonth()-1, 1);
+    renderAvailCalendar();
+  });
+  nextBtn.addEventListener("click", () => {
+    availCursor = new Date(availCursor.getFullYear(), availCursor.getMonth()+1, 1);
+    renderAvailCalendar();
+  });
+
+  renderAvailCalendar();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initAvailCalendar();
 });

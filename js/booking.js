@@ -462,7 +462,7 @@ function renderCalendar(){
   const locale = "fr-FR";
   monthLabel.textContent = calCursor.toLocaleDateString(locale, { month:"long", year:"numeric" }).replace(/^\w/, c => c.toUpperCase());
 
-  const dows = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
+  const dows = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"]; // Lun+Dim grisés côté CSS
   dowsWrap.innerHTML = dows.map(d=>`<div class="dow">${d}</div>`).join("");
 
   // Determine first day offset (Monday as first)
@@ -483,7 +483,17 @@ function renderCalendar(){
     const date = new Date(calCursor.getFullYear(), calCursor.getMonth(), day);
     const key = toDateKey(date);
 
-    const disabled = date < minDate || date > maxDate;
+    const jsWeekDay = date.getDay(); // 0=Dim, 1=Lun
+    const isClosedDay = jsWeekDay === 0 || jsWeekDay === 1; // Fermé Dim + Lun
+    const isClosedByAdmin = (function(){
+      try {
+        const all = JSON.parse(localStorage.getItem("kb_availability") || "{}");
+        // Si la journée est explicitement fermée par l'admin
+        if (all[key] && all[key].open === false) return true;
+        return false;
+      } catch(e){ return false; }
+    })();
+    const disabled = date < minDate || date > maxDate || isClosedDay || isClosedByAdmin;
     const selected = selectedDateKey === key;
 
     cells.push(`

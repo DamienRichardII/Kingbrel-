@@ -184,14 +184,36 @@
         </div>
       </div>
 
-      <!-- PANE: Disponibilités (ancien comportement) -->
+      <!-- PANE: Disponibilités -->
       <div class="admin-pane" id="pane-disponibilites">
         <div class="panel">
-          <div class="field" style="max-width:320px">
-            <div class="label">Choisir une date</div>
-            <input class="input" type="date" id="adminDate" />
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px">
+            <div>
+              <h3 style="margin:0 0 4px">📅 Disponibilités</h3>
+              <p style="margin:0; color:rgba(255,255,255,.55); font-size:.85rem">
+                Clique sur un jour pour l'ouvrir/fermer et gérer les créneaux horaires.<br/>
+                <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--supernova);vertical-align:middle;margin-right:4px"></span>Ouvert &nbsp;
+                <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:rgba(255,80,80,.4);border:1px solid rgba(255,80,80,.5);vertical-align:middle;margin-right:4px"></span>Fermé &nbsp;
+                <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:rgba(255,255,255,.08);vertical-align:middle;margin-right:4px"></span>Par défaut
+              </p>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button class="btn" id="availPrev">←</button>
+              <span id="availMonthLabel" style="font-weight:800;min-width:140px;text-align:center"></span>
+              <button class="btn" id="availNext">→</button>
+            </div>
+          </div>
+
+          <!-- Calendrier mensuel admin -->
+          <div id="availCalGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px"></div>
+
+          <!-- Légende jours fermés permanents -->
+          <div style="font-size:.75rem;color:rgba(255,255,255,.35);margin-bottom:10px">
+            🚫 Dimanche et Lundi : toujours fermés (non affichés dans la réservation client)
           </div>
         </div>
+
+        <!-- Éditeur créneaux pour le jour sélectionné -->
         <div style="margin-top:16px; display:grid; gap:16px">
           <div id="dayEditor"></div>
           <div id="bookingList"></div>
