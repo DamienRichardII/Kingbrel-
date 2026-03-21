@@ -246,9 +246,9 @@ function ensureModal(){
     <div class="modal" role="dialog" aria-modal="true" aria-label="Réservation">
       <div class="modalTop">
         <div>
-          <p class="kicker" style="margin:0 0 10px"><strong style="color: var(--supernova)">Réservation</strong> • Choisis ton créneau</p>
-          <h3 class="modalTitle" id="modalTitle">Réserver</h3>
-          <p style="margin:6px 0 0; color: rgba(255,255,255,.72)" id="modalMeta"></p>
+          <p class="kicker" style="margin:0 0 10px;color:var(--supernova);font-weight:800"><strong style="color: var(--supernova)">Réservation</strong> <span style="color:rgba(255,197,0,.75)">• Choisis ton créneau</span></p>
+          <h3 class="modalTitle" id="modalTitle" style="color:var(--supernova)">Réserver</h3>
+          <p style="margin:6px 0 0; color: var(--supernova); font-weight:700" id="modalMeta"></p>
         </div>
         <button class="btn modalClose" id="modalClose" aria-label="Fermer">✕</button>
       </div>

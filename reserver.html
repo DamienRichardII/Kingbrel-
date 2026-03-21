@@ -5,11 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#FFC500" />
   <title>KINGBREL — Réserver</title>
-  <meta name="description" content="KINGBREL — Réservation en ligne premium. Choisis ta prestation et ton créneau (12h → 19h)." />
+  <meta name="description" content="KINGBREL — Coiffeur à Boissy Saint-Léger. Réservation en ligne. Mar-Ven 12h-20h, Sam 10h-18h." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./css/style.css" />
   <link rel="icon" href="./assets/favicon.jpeg" type="image/jpeg" />
+  <link rel="apple-touch-icon" href="./assets/kingbrel-logo.png" />
+  <!-- OG / Social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="KINGBREL — Réserver" />
+  <meta property="og:site_name" content="KINGBREL" />
+  <meta property="og:url" content="https://www.kingbrel.com/reserver.html" />
+  <meta property="og:image" content="https://www.kingbrel.com/assets/kingbrel-logo.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="https://www.kingbrel.com/assets/kingbrel-logo.png" />
 </head>
 
 <body data-theme="light">
@@ -145,7 +156,12 @@
         <!-- 3) Colorations -->
         <details class="accordion">
           <summary class="accordion__summary">
-            <div class="accordion__media" style="background-image:url('./assets/presta-colorations.png')" aria-hidden="true"></div>
+            <div class="accordion__media accordion__media--video" aria-hidden="true">
+              <video autoplay loop muted playsinline
+                style="width:100%;height:100%;object-fit:cover;border-radius:18px;display:block;">
+                <source src="./assets/coloration-video.mp4" type="video/mp4" />
+              </video>
+            </div>
             <div class="accordion__meta">
               <div class="accordion__title">Colorations</div>
               <div class="accordion__desc">Sur devis • Demande d'info possible en commentaire</div>
