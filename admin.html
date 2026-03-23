@@ -107,6 +107,39 @@
 </head>
 <body>
 
+<!-- ===== ÉCRAN DE CONNEXION ADMIN ===== -->
+<div id="adminLoginScreen" style="
+  position:fixed; inset:0; z-index:9999;
+  background:#0a0a0a;
+  display:flex; align-items:center; justify-content:center;
+">
+  <div style="
+    background:#111; border:1px solid rgba(255,197,0,.25);
+    border-radius:20px; padding:36px 32px; width:100%; max-width:360px;
+    box-shadow:0 24px 60px rgba(0,0,0,.6); text-align:center;
+  ">
+    <div style="font-size:2rem;font-weight:900;letter-spacing:.12em;color:#fff;margin-bottom:6px">KINGBREL</div>
+    <p style="color:rgba(255,255,255,.45);font-size:.85rem;margin:0 0 28px">Espace Administration</p>
+    <div style="text-align:left;margin-bottom:14px">
+      <div style="font-size:.75rem;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em">Identifiant</div>
+      <input id="loginId" type="text" autocomplete="username"
+        style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:11px 14px;color:#fff;font-size:.95rem;outline:none"
+        placeholder="Identifiant" />
+    </div>
+    <div style="text-align:left;margin-bottom:22px">
+      <div style="font-size:.75rem;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em">Mot de passe</div>
+      <input id="loginPwd" type="password" autocomplete="current-password"
+        style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:11px 14px;color:#fff;font-size:.95rem;outline:none"
+        placeholder="Mot de passe" />
+    </div>
+    <div id="loginError" style="color:#ff6b6b;font-size:.82rem;margin-bottom:12px;min-height:18px"></div>
+    <button id="loginBtn"
+      style="width:100%;padding:13px;background:var(--supernova);border:none;border-radius:12px;font-weight:800;font-size:1rem;cursor:pointer;color:#000;">
+      Connexion
+    </button>
+  </div>
+</div>
+
   <header class="siteHeader" role="banner">
     <div class="container siteHeader__inner">
       <div class="siteHeader__left" aria-hidden="true"></div>
@@ -146,6 +179,8 @@
         <button class="admin-tab" data-tab="noshow">⚠️ No-Shows</button>
         <button class="admin-tab" data-tab="email">✉️ Email</button>
         <button class="admin-tab" data-tab="stripe">💳 Abonnements</button>
+        <button class="admin-tab" data-tab="rib">🏦 RIB No-Show</button>
+        <button class="admin-tab" data-tab="rib">🏦 RIB No-Show</button>
         <a href="./planning.html" style="background:var(--supernova); color:#000; border-color:var(--supernova)">📆 Planning</a>
       </nav>
 
@@ -383,6 +418,43 @@
             <li>Copie l'URL générée et colle-la dans le champ correspondant ci-dessus</li>
             <li>Clique <strong>Enregistrer les liens</strong></li>
           </ol>
+        </div>
+      </div>
+
+      <!-- PANE: RIB No-Show -->
+      <div class="admin-pane" id="pane-rib">
+        <div class="panel">
+          <h3 style="margin:0 0 6px">🏦 RIB — Paiements No-Show</h3>
+          <p style="margin:0 0 20px;color:rgba(255,255,255,.55);font-size:.85rem">
+            Ces coordonnées sont transmises au client pour qu'il règle le montant no-show par virement.
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+            <div class="field" style="margin:0">
+              <div class="label">Titulaire du compte</div>
+              <input class="input" id="rib_nom" placeholder="Ex: KINGBREL" />
+            </div>
+            <div class="field" style="margin:0">
+              <div class="label">Banque</div>
+              <input class="input" id="rib_banque" placeholder="Ex: CIC, BNP, Revolut…" />
+            </div>
+            <div class="field" style="margin:0;grid-column:1/-1">
+              <div class="label">IBAN</div>
+              <input class="input" id="rib_iban" placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX" style="letter-spacing:.06em;font-family:monospace" />
+            </div>
+            <div class="field" style="margin:0">
+              <div class="label">BIC / SWIFT</div>
+              <input class="input" id="rib_bic" placeholder="Ex: BNPAFRPP" />
+            </div>
+            <div class="field" style="margin:0">
+              <div class="label">Motif virement</div>
+              <input class="input" id="rib_motif" placeholder="Ex: No-show KINGBREL du {{date}}" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="saveRib" style="margin-bottom:24px">💾 Enregistrer le RIB</button>
+          <div style="background:rgba(255,197,0,.06);border:1px solid rgba(255,197,0,.2);border-radius:14px;padding:16px">
+            <h4 style="margin:0 0 10px;color:var(--supernova)">👁 Aperçu du message client no-show</h4>
+            <div id="ribPreview" style="font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.7;white-space:pre-wrap;font-family:monospace"></div>
+          </div>
         </div>
       </div>
 

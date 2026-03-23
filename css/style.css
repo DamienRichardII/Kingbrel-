@@ -539,13 +539,11 @@ background-size:cover;
 }
 .heroFull__bg{
   position:absolute; inset:0;
-  background-image: url("../assets/hero-home.png");
+  background-image: url("../assets/hero-home.jpg");
   background-size: cover;
   background-position: center;
-  transform: scale(1.02);
-
-  /* IMPORTANT : ne pas assombrir la photo */
-  filter: none;
+  overflow: hidden;
+  /* video background — l'image reste en fallback */
 }
 
 .heroFull__overlay{

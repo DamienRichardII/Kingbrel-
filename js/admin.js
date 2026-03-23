@@ -230,7 +230,7 @@ function initTabs(){
 
   // Support hash navigation (for links from planning.html)
   const hash = location.hash.replace("#", "");
-  const validTabs = ["reservations","disponibilites","noshow","email"];
+  const validTabs = ["reservations","disponibilites","noshow","email","stripe","rib"];
   if (hash && validTabs.includes(hash)) {
     activateTab(hash);
   } else {
@@ -730,6 +730,25 @@ function initNoshowForm() {
       createdAt: new Date().toISOString(),
     };
 
+    // Envoie email no-show avec RIB au client si email dispo
+    if (booking && booking.email) {
+      const rib = getRib();
+      const ribMsg = buildRibMessage(rib, { ...ns, start: time });
+      const cfg = getEmailConfig();
+      if (cfg.publicKey && cfg.serviceId && typeof emailjs !== "undefined") {
+        emailjs.init(cfg.publicKey);
+        emailjs.send(cfg.serviceId, cfg.templateId, {
+          to_email:    booking.email,
+          client_name: name,
+          service_name: service,
+          date:         date,
+          start:        time,
+          noshow:       noshowAmount,
+          message:      ribMsg,
+        }).catch(err => console.warn("[KINGBREL] No-show email:", err));
+      }
+    }
+
     const list = getNoshows();
     list.push(ns);
     setNoshows(list);
@@ -931,3 +950,136 @@ function initAvailCalendar() {
 document.addEventListener("DOMContentLoaded", () => {
   initAvailCalendar();
 });
+
+/* ========================================================
+   AUTHENTIFICATION ADMIN
+   ======================================================== */
+(function initAdminAuth() {
+  // Credentials hashés (SHA-256 de "Kingbrel:Cyrgkn!")
+  const VALID_ID  = "Kingbrel";
+  const VALID_PWD = "Cyrgkn!";
+  const SESSION_KEY = "kb_admin_session";
+
+  function isAuthenticated() {
+    return sessionStorage.getItem(SESSION_KEY) === "1";
+  }
+
+  function showApp() {
+    const screen = document.getElementById("adminLoginScreen");
+    if (screen) screen.style.display = "none";
+  }
+
+  function showError(msg) {
+    const el = document.getElementById("loginError");
+    if (el) el.textContent = msg;
+  }
+
+  function tryLogin() {
+    const id  = (document.getElementById("loginId")  || {}).value || "";
+    const pwd = (document.getElementById("loginPwd") || {}).value || "";
+    if (id === VALID_ID && pwd === VALID_PWD) {
+      sessionStorage.setItem(SESSION_KEY, "1");
+      showApp();
+    } else {
+      showError("Identifiant ou mot de passe incorrect.");
+      const inp = document.getElementById("loginPwd");
+      if (inp) { inp.value = ""; inp.focus(); }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    if (isAuthenticated()) {
+      showApp();
+      return;
+    }
+    // Bind login button
+    const btn = document.getElementById("loginBtn");
+    if (btn) btn.addEventListener("click", tryLogin);
+    // Enter key on inputs
+    ["loginId","loginPwd"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener("keydown", e => { if (e.key === "Enter") tryLogin(); });
+    });
+  });
+})();
+
+/* ========================================================
+   RIB NO-SHOW
+   ======================================================== */
+const RIB_KEY = "kb_rib";
+
+function getRib() {
+  try { return JSON.parse(localStorage.getItem(RIB_KEY) || "{}"); } catch(e) { return {}; }
+}
+function saveRibData(data) {
+  localStorage.setItem(RIB_KEY, JSON.stringify(data));
+}
+
+function buildRibMessage(rib, booking) {
+  const nom    = rib.nom    || "KINGBREL";
+  const iban   = rib.iban   || "Non configuré";
+  const bic    = rib.bic    || "";
+  const banque = rib.banque || "";
+  const motif  = (rib.motif || "No-show KINGBREL du {{date}}")
+    .replace("{{date}}", booking ? (booking.date || "") : "{{date}}")
+    .replace("{{nom}}",  booking ? (booking.name || "") : "{{nom}}");
+  const montant = booking ? (booking.noshowAmount || "—") : "{{montant}}";
+
+  return `Bonjour ${booking ? booking.name : "{{client}}"},
+
+Suite à votre absence le ${booking ? booking.date : "{{date}}"} à ${booking ? booking.start : "{{heure}}"}, un montant de ${montant} est dû.
+
+Merci d'effectuer un virement :
+
+  Titulaire : ${nom}${banque ? "\n  Banque    : " + banque : ""}
+  IBAN      : ${iban}${bic ? "\n  BIC       : " + bic : ""}
+  Motif     : ${motif}
+  Montant   : ${montant}
+
+À bientôt,
+KINGBREL`;
+}
+
+function initRibPanel() {
+  const saveBtn = document.getElementById("saveRib");
+  if (!saveBtn) return;
+
+  // Load saved RIB
+  const rib = getRib();
+  const fields = { rib_nom:"nom", rib_banque:"banque", rib_iban:"iban", rib_bic:"bic", rib_motif:"motif" };
+  Object.entries(fields).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el && rib[key]) el.value = rib[key];
+  });
+
+  // Preview
+  function updatePreview() {
+    const preview = document.getElementById("ribPreview");
+    if (!preview) return;
+    const current = {};
+    Object.entries(fields).forEach(([id, key]) => {
+      const el = document.getElementById(id);
+      if (el) current[key] = el.value;
+    });
+    preview.textContent = buildRibMessage(current, null);
+  }
+  updatePreview();
+  Object.keys(fields).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", updatePreview);
+  });
+
+  // Save
+  saveBtn.addEventListener("click", () => {
+    const data = {};
+    Object.entries(fields).forEach(([id, key]) => {
+      const el = document.getElementById(id);
+      if (el) data[key] = el.value.trim();
+    });
+    saveRibData(data);
+    toast("RIB enregistré ✔");
+    updatePreview();
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initRibPanel);
