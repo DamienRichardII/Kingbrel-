@@ -704,7 +704,7 @@ function getEmailConfig() {
   // Valeurs par défaut — modifiables depuis Admin → Email
   const defaults = {
     adminEmail:          "Kingbrel.paris@gmail.com",
-    serviceId:           "service_bfriu0y",
+    serviceId:           "service_pytm7i4",
     templateId:          "template_ynkyy9d",          // template notif admin
     publicKey:           "UCtJeGwPU8PvmNu14",
     templateClientEmail: "template_mg4gs3p",   // template confirmation client

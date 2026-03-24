@@ -82,7 +82,7 @@ const EMAIL_STORAGE_KEY = "kb_email_config";
 function getEmailConfig(){
   const defaults = {
     adminEmail:          "Kingbrel.paris@gmail.com",
-    serviceId:           "service_bfriu0y",
+    serviceId:           "service_pytm7i4",
     templateId:          "template_ynkyy9d",
     publicKey:           "UCtJeGwPU8PvmNu14",
     templateClientEmail: "template_mg4gs3p",
