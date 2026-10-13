@@ -1,7 +1,3 @@
+# Site retiré de Google : on laisse les robots lire la balise noindex
 User-agent: *
 Allow: /
-
-Disallow: /admin.html
-Disallow: /planning.html
-
-Sitemap: https://www.kingbrel.com/sitemap.xml
